@@ -5,5 +5,10 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_today">TodayActivity</string>
     <string name="task_list_empty">Task list is empty</string>
+    <string name="menu_delete">Delete task</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="confirm">Save</string>
+    <string name="date">Date</string>
 
 </resources>
