@@ -3,6 +3,7 @@ package com.cyberprophets.todaytodolist.model;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -84,6 +85,8 @@ public class TasksArrayAdapter extends ArrayAdapter<Task> {
 				viewHolder.checkBox.setChecked(true);
 				viewHolder.title.setTextAppearance(getContext(),
 						R.style.boldText);
+				viewHolder.title.setPaintFlags(viewHolder.title.getPaintFlags()
+						| Paint.STRIKE_THRU_TEXT_FLAG);
 			} else {
 				viewHolder.checkBox.setChecked(false);
 				viewHolder.title.setTextAppearance(getContext(),
@@ -117,9 +120,13 @@ public class TasksArrayAdapter extends ArrayAdapter<Task> {
 			if (buttonView.isChecked()) {
 				viewHolder.title.setTextAppearance(getContext(),
 						R.style.boldText);
+				viewHolder.title.setPaintFlags(viewHolder.title.getPaintFlags()
+						| Paint.STRIKE_THRU_TEXT_FLAG);
 			} else {
 				viewHolder.title.setTextAppearance(getContext(),
 						R.style.normalText);
+				viewHolder.title.setPaintFlags(viewHolder.title.getPaintFlags()
+						^ Paint.STRIKE_THRU_TEXT_FLAG);
 			}
 		}
 	};

@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="android:Theme.Light" />
 
     <style name="boldText">
-        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">#C0C0C0</item>
     </style>
 
