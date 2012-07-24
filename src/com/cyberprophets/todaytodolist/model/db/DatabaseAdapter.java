@@ -100,7 +100,7 @@ public class DatabaseAdapter implements SourceAdapter {
 			return getDatabase().insert(DATABASE_TABLE, null, contentValues) != -1;
 		} else {
 			return getDatabase().update(DATABASE_TABLE, contentValues,
-					KEY_ID + "=" + task.getId(), null) > 0;
+					KEY_ID + "=" + "\'" + task.getId() + "\'", null) > 0;
 		}
 	}
 

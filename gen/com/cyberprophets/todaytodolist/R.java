@@ -24,10 +24,10 @@ public final class R {
         public static final int confirm=0x7f080003;
         public static final int date=0x7f080002;
         public static final int description=0x7f080001;
+        public static final int list=0x7f080005;
         public static final int menu_delete=0x7f08000b;
         public static final int menu_settings=0x7f08000a;
         public static final int task_is_done=0x7f080008;
-        public static final int task_list=0x7f080005;
         public static final int task_list_empty=0x7f080006;
         public static final int task_title=0x7f080009;
         public static final int title=0x7f080000;
@@ -51,10 +51,14 @@ public final class R {
         public static final int menu_delete=0x7f050005;
         public static final int menu_settings=0x7f050002;
         public static final int task_list_empty=0x7f050004;
+        public static final int task_not_saved_message=0x7f05000b;
+        public static final int task_saved_message=0x7f05000a;
         public static final int title=0x7f050006;
         public static final int title_activity_today=0x7f050003;
     }
     public static final class style {
         public static final int AppTheme=0x7f060000;
+        public static final int boldText=0x7f060001;
+        public static final int normalText=0x7f060002;
     }
 }

@@ -1,6 +1,7 @@
 package com.cyberprophets.todaytodolist;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.ContextMenu;
@@ -11,7 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnKeyListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -21,6 +24,7 @@ import com.cyberprophets.todaytodolist.model.Task;
 import com.cyberprophets.todaytodolist.model.TasksArrayAdapter;
 
 public class TodayActivity extends Activity {
+	private static final String KEY_TASKID = "id";
 
 	private EditText newTaskTitle;
 	private ListView tasksListView;
@@ -30,16 +34,17 @@ public class TodayActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.today_activity);
-		tasksListView = (ListView) findViewById(R.id.task_list);
+		tasksListView = (ListView) findViewById(R.id.list);
 
 		this.model = new Model(this);
 		getModel().activate();
 		fillData();
 
-		tasksListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
+		tasksListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		tasksListView.setOnItemClickListener(new OnTaskItemClickListener());
 		newTaskTitle = (EditText) findViewById(R.id.add_task);
 		newTaskTitle.setInputType(InputType.TYPE_CLASS_TEXT);
+
 		newTaskTitle.setOnKeyListener(new OnKeyListener() {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if ((event.getAction() == KeyEvent.ACTION_DOWN)
@@ -50,15 +55,19 @@ public class TodayActivity extends Activity {
 					return true;
 				}
 				return false;
-			}		
+			}
 		});
-		
-		//registerForContextMenu(newTaskTitle);
+
+		registerForContextMenu(tasksListView);
+	}
+
+	public Model getModel() {
+		return model;
 	}
 
 	private void fillData() {
-		ArrayAdapter<Task> adapter = new TasksArrayAdapter(this, getModel()
-				.getAllTasks());
+		ArrayAdapter<Task> adapter = new TasksArrayAdapter(getModel(), this,
+				getModel().getAllTasks());
 		tasksListView.setAdapter(adapter);
 	}
 
@@ -92,8 +101,21 @@ public class TodayActivity extends Activity {
 		return super.onContextItemSelected(item);
 	}
 
-	public Model getModel() {
-		return model;
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		fillData();
+	};
+
+	private class OnTaskItemClickListener implements OnItemClickListener {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3) {
+			Intent intent = new Intent(TodayActivity.this,
+					EditTaskActivity.class);
+			intent.putExtra(KEY_TASKID, ((Task) tasksListView
+					.getItemAtPosition(arg2)).getId().toString());
+			startActivity(intent);
+		}
 	}
 
 }

@@ -2,6 +2,7 @@ package com.cyberprophets.todaytodolist.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import android.content.Context;
 
@@ -32,6 +33,10 @@ public class Model {
 	public void createNewTask(String title) {
 		Task task = new Task(title, new Date());
 		getSourceAdapter().saveTask(task);
+	}
+
+	public Task getTask(UUID id) {
+		return getSourceAdapter().getTask(id);
 	}
 
 	public void saveTask(Task task) {

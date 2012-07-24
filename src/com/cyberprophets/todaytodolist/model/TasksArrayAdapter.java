@@ -3,6 +3,7 @@ package com.cyberprophets.todaytodolist.model;
 import java.util.List;
 
 import android.app.Activity;
+import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,21 @@ public class TasksArrayAdapter extends ArrayAdapter<Task> {
 
 	private List<Task> tasks;
 	private Activity context;
+	private Model model;
 
-	public TasksArrayAdapter(Activity context, List<Task> tasks) {
+	public TasksArrayAdapter(Model model, Activity context, List<Task> tasks) {
 		super(context, R.layout.todo_list_row, tasks);
 		this.context = context;
 		this.tasks = tasks;
+		this.model = model;
+	}
+
+	public Activity getContext() {
+		return context;
+	}
+
+	public Model getModel() {
+		return model;
 	}
 
 	static class ViewHolder {
@@ -35,18 +46,14 @@ public class TasksArrayAdapter extends ArrayAdapter<Task> {
 		if (convertView == null) {
 			LayoutInflater inflator = context.getLayoutInflater();
 			view = inflator.inflate(R.layout.todo_list_row, null);
+
 			final ViewHolder viewHolder = new ViewHolder();
 			viewHolder.title = (TextView) view.findViewById(R.id.task_title);
 			viewHolder.checkBox = (CheckBox) view
 					.findViewById(R.id.task_is_done);
 			viewHolder.checkBox
-					.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							Task task = (Task) viewHolder.checkBox.getTag();
-							task.setDone(buttonView.isChecked());
-						}
-					});
+					.setOnCheckedChangeListener(new OnCheckedTaskDoneChangeListener(
+							viewHolder));
 			view.setTag(viewHolder);
 			viewHolder.checkBox.setTag(tasks.get(position));
 		} else {
@@ -54,8 +61,44 @@ public class TasksArrayAdapter extends ArrayAdapter<Task> {
 			((ViewHolder) view.getTag()).checkBox.setTag(tasks.get(position));
 		}
 		ViewHolder holder = (ViewHolder) view.getTag();
-		holder.title.setText(tasks.get(position).getTitle());
-		holder.checkBox.setChecked(tasks.get(position).isDone());
+		initViewHolder(holder, tasks.get(position));
 		return view;
 	}
+
+	private void initViewHolder(ViewHolder viewHolder, Task task) {
+		viewHolder.title.setText(task.getTitle());
+		viewHolder.checkBox.setChecked(task.isDone());
+		if (task.isDone()) {
+			viewHolder.checkBox.setChecked(true);
+			viewHolder.title.setTextAppearance(getContext(), R.style.boldText);
+		} else {
+			viewHolder.checkBox.setChecked(false);
+			viewHolder.title
+					.setTextAppearance(getContext(), R.style.normalText);
+		}
+	}
+
+	private class OnCheckedTaskDoneChangeListener implements
+			CompoundButton.OnCheckedChangeListener {
+		private ViewHolder viewHolder;
+
+		public OnCheckedTaskDoneChangeListener(ViewHolder viewHolder) {
+			this.viewHolder = viewHolder;
+		}
+
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			Task task = (Task) viewHolder.checkBox.getTag();
+			task.setDone(buttonView.isChecked());
+			getModel().saveTask(task);
+			if (buttonView.isChecked()) {
+				viewHolder.title.setTextAppearance(getContext(),
+						R.style.boldText);
+			} else {
+				viewHolder.title.setTextAppearance(getContext(),
+						R.style.normalText);
+			}
+		}
+
+	};
 }
