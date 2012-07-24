@@ -1,6 +1,6 @@
 package com.cyberprophets.todaytodolist;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,7 +30,7 @@ import com.cyberprophets.todaytodolist.model.TasksArrayAdapter;
  * @author Mironov S.V.
  * @since 24.07.2012
  */
-public class TodayActivity extends Activity implements ModelListener {
+public class TodayActivity extends ListActivity implements ModelListener {
 	private static final String KEY_TASKID = "id";
 
 	private EditText newTaskTitle;
@@ -43,7 +43,7 @@ public class TodayActivity extends Activity implements ModelListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.today_activity);
-		tasksListView = (ListView) findViewById(R.id.list);
+		tasksListView = getListView();
 
 		this.model = new Model(this);
 		getModel().activate();
