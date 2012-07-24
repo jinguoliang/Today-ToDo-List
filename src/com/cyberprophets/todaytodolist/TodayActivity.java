@@ -3,6 +3,7 @@ package com.cyberprophets.todaytodolist;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -20,15 +21,23 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.cyberprophets.todaytodolist.model.Model;
+import com.cyberprophets.todaytodolist.model.ModelListener;
 import com.cyberprophets.todaytodolist.model.Task;
 import com.cyberprophets.todaytodolist.model.TasksArrayAdapter;
 
-public class TodayActivity extends Activity {
+/**
+ * 
+ * @author Mironov S.V.
+ * @since 24.07.2012
+ */
+public class TodayActivity extends Activity implements ModelListener {
 	private static final String KEY_TASKID = "id";
 
 	private EditText newTaskTitle;
 	private ListView tasksListView;
 	private Model model;
+
+	private final Handler uiHandler = new Handler();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,25 +47,14 @@ public class TodayActivity extends Activity {
 
 		this.model = new Model(this);
 		getModel().activate();
+		getModel().addModelListener(this);
 		fillData();
 
 		tasksListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		tasksListView.setOnItemClickListener(new OnTaskItemClickListener());
 		newTaskTitle = (EditText) findViewById(R.id.add_task);
 		newTaskTitle.setInputType(InputType.TYPE_CLASS_TEXT);
-
-		newTaskTitle.setOnKeyListener(new OnKeyListener() {
-			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if ((event.getAction() == KeyEvent.ACTION_DOWN)
-						&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
-					EditText editText = (EditText) v;
-					getModel().createNewTask(editText.getText().toString());
-					editText.getText().clear();
-					return true;
-				}
-				return false;
-			}
-		});
+		newTaskTitle.setOnKeyListener(new AddNewTaskOnKeyListener());
 
 		registerForContextMenu(tasksListView);
 	}
@@ -65,10 +63,18 @@ public class TodayActivity extends Activity {
 		return model;
 	}
 
+	public ListView getTasksListView() {
+		return tasksListView;
+	}
+
+	public Handler getUiHandler() {
+		return uiHandler;
+	}
+
 	private void fillData() {
 		ArrayAdapter<Task> adapter = new TasksArrayAdapter(getModel(), this,
 				getModel().getAllTasks());
-		tasksListView.setAdapter(adapter);
+		getTasksListView().setAdapter(adapter);
 	}
 
 	@Override
@@ -107,6 +113,47 @@ public class TodayActivity extends Activity {
 		fillData();
 	};
 
+	public void taskCreated(Task task) {
+		getUiHandler().post(new Runnable() {
+			public void run() {
+				fillData();
+			}
+		});
+	}
+
+	public void taskDeleted(Task task) {
+		getUiHandler().post(new Runnable() {
+			public void run() {
+				fillData();
+			}
+		});
+	};
+
+	/**
+	 * 
+	 * @author Mironov S.V.
+	 * @since 24.07.2012
+	 */
+	private class AddNewTaskOnKeyListener implements OnKeyListener {
+
+		public boolean onKey(View v, int keyCode, KeyEvent event) {
+			if ((event.getAction() == KeyEvent.ACTION_DOWN)
+					&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
+				EditText editText = (EditText) v;
+				getModel().createNewTask(editText.getText().toString());
+				editText.getText().clear();
+
+				return true;
+			}
+			return false;
+		}
+	};
+
+	/**
+	 * 
+	 * @author Mironov S.V.
+	 * @since 24.07.2012
+	 */
 	private class OnTaskItemClickListener implements OnItemClickListener {
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {

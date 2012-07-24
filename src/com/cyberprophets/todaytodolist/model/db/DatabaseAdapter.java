@@ -110,7 +110,7 @@ public class DatabaseAdapter implements SourceAdapter {
 
 	public boolean deleteTask(UUID id) {
 		return getDatabase().delete(DATABASE_TABLE,
-				KEY_ID + "=" + id.toString(), null) > 0;
+				KEY_ID + "=" + "\'" + id.toString() + "\'", null) > 0;
 	}
 
 	public Task getTask(UUID id) {

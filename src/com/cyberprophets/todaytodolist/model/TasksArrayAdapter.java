@@ -7,9 +7,11 @@ import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.cyberprophets.todaytodolist.R;
@@ -36,8 +38,10 @@ public class TasksArrayAdapter extends ArrayAdapter<Task> {
 	}
 
 	static class ViewHolder {
+		protected Task task;
 		protected TextView title;
 		protected CheckBox checkBox;
+		protected ImageButton deletTaskButton;
 	}
 
 	@Override
@@ -48,36 +52,52 @@ public class TasksArrayAdapter extends ArrayAdapter<Task> {
 			view = inflator.inflate(R.layout.todo_list_row, null);
 
 			final ViewHolder viewHolder = new ViewHolder();
+			viewHolder.task = tasks.get(position);
 			viewHolder.title = (TextView) view.findViewById(R.id.task_title);
+
 			viewHolder.checkBox = (CheckBox) view
 					.findViewById(R.id.task_is_done);
 			viewHolder.checkBox
 					.setOnCheckedChangeListener(new OnCheckedTaskDoneChangeListener(
 							viewHolder));
+
+			viewHolder.deletTaskButton = (ImageButton) view
+					.findViewById(R.id.delete_task_button);
+			viewHolder.deletTaskButton
+					.setOnClickListener(new DeleteTaskButtonOnClickListener(
+							viewHolder));
 			view.setTag(viewHolder);
-			viewHolder.checkBox.setTag(tasks.get(position));
 		} else {
 			view = convertView;
-			((ViewHolder) view.getTag()).checkBox.setTag(tasks.get(position));
+			((ViewHolder) view.getTag()).task = tasks.get(position);
 		}
 		ViewHolder holder = (ViewHolder) view.getTag();
-		initViewHolder(holder, tasks.get(position));
+		initViewHolder(holder);
 		return view;
 	}
 
-	private void initViewHolder(ViewHolder viewHolder, Task task) {
-		viewHolder.title.setText(task.getTitle());
-		viewHolder.checkBox.setChecked(task.isDone());
-		if (task.isDone()) {
-			viewHolder.checkBox.setChecked(true);
-			viewHolder.title.setTextAppearance(getContext(), R.style.boldText);
-		} else {
-			viewHolder.checkBox.setChecked(false);
-			viewHolder.title
-					.setTextAppearance(getContext(), R.style.normalText);
+	private void initViewHolder(ViewHolder viewHolder) {
+		if ((viewHolder != null) && (viewHolder.task != null)) {
+			Task task = viewHolder.task;
+			viewHolder.title.setText(task.getTitle());
+			viewHolder.checkBox.setChecked(task.isDone());
+			if (task.isDone()) {
+				viewHolder.checkBox.setChecked(true);
+				viewHolder.title.setTextAppearance(getContext(),
+						R.style.boldText);
+			} else {
+				viewHolder.checkBox.setChecked(false);
+				viewHolder.title.setTextAppearance(getContext(),
+						R.style.normalText);
+			}
 		}
 	}
 
+	/**
+	 * 
+	 * @author Mironov S.V.
+	 * @since 24.07.2012
+	 */
 	private class OnCheckedTaskDoneChangeListener implements
 			CompoundButton.OnCheckedChangeListener {
 		private ViewHolder viewHolder;
@@ -86,9 +106,13 @@ public class TasksArrayAdapter extends ArrayAdapter<Task> {
 			this.viewHolder = viewHolder;
 		}
 
+		public ViewHolder getViewHolder() {
+			return viewHolder;
+		}
+
 		public void onCheckedChanged(CompoundButton buttonView,
 				boolean isChecked) {
-			Task task = (Task) viewHolder.checkBox.getTag();
+			Task task = getViewHolder().task;
 			task.setDone(buttonView.isChecked());
 			getModel().saveTask(task);
 			if (buttonView.isChecked()) {
@@ -99,6 +123,26 @@ public class TasksArrayAdapter extends ArrayAdapter<Task> {
 						R.style.normalText);
 			}
 		}
+	};
 
+	/**
+	 * 
+	 * @author Mironov S.V.
+	 * @since 24.07.2012
+	 */
+	private class DeleteTaskButtonOnClickListener implements OnClickListener {
+		private ViewHolder viewHolder;
+
+		public DeleteTaskButtonOnClickListener(ViewHolder viewHolder) {
+			this.viewHolder = viewHolder;
+		}
+
+		public ViewHolder getViewHolder() {
+			return viewHolder;
+		}
+
+		public void onClick(View v) {
+			getModel().deleteTask(getViewHolder().task);
+		}
 	};
 }

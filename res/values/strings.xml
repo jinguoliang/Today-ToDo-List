@@ -12,5 +12,6 @@
     <string name="date">Date</string>
     <string name="task_saved_message">Task saved</string>
     <string name="task_not_saved_message">Error on save task! Task do not exists!</string>
+    <string name="delete_task">Delete task</string>
 
 </resources>

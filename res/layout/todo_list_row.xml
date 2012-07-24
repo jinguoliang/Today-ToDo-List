@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/todo_list_row"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:layout_height="match_parent" >
 
     <CheckBox
         android:id="@+id/task_is_done"
@@ -12,9 +11,21 @@
 
     <TextView
         android:id="@+id/task_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/button2"
+        android:layout_toRightOf="@+id/task_is_done"
         android:focusable="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:padding="15dp" />
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/delete_task_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/delete_task"
+        android:src="@drawable/ic_delete_task" />
+
+</RelativeLayout>
