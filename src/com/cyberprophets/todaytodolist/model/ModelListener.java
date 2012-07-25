@@ -9,4 +9,6 @@ public interface ModelListener {
 	void taskCreated(Task task);
 
 	void taskDeleted(Task task);
+
+	void taskChanged(Task oldTask, Task newTask);
 }

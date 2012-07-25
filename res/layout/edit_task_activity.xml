@@ -10,8 +10,9 @@
         android:orientation="vertical" >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:padding="@dimen/padding_medium"
             android:text="@string/title"
             tools:context=".ReminderEditActivity" />
@@ -20,26 +21,29 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ems="10"
             android:inputType="text" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:padding="@dimen/padding_medium"
             android:text="@string/description" />
 
         <EditText
             android:id="@+id/description"
             android:layout_width="match_parent"
-            android:layout_height="168dp"
+            android:layout_height="139dp"
             android:gravity="top"
             android:inputType="text"
             android:minLines="5"
             android:scrollbars="vertical" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:padding="@dimen/padding_medium"
             android:text="@string/date" />
 
@@ -53,6 +57,7 @@
             android:id="@+id/confirm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:text="@string/confirm" />
     </LinearLayout>
 

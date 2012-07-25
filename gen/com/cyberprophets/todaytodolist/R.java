@@ -48,6 +48,7 @@ public final class R {
         public static final int date=0x7f050009;
         public static final int delete_task=0x7f05000c;
         public static final int description=0x7f050007;
+        public static final int edit_task_activity_title=0x7f05000d;
         public static final int hello_world=0x7f050001;
         public static final int menu_delete=0x7f050005;
         public static final int menu_settings=0x7f050002;

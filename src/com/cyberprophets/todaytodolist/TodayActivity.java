@@ -5,20 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnKeyListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.ModelListener;
@@ -32,6 +26,7 @@ import com.cyberprophets.todaytodolist.model.TasksArrayAdapter;
  */
 public class TodayActivity extends ListActivity implements ModelListener {
 	private static final String KEY_TASKID = "id";
+	private static final int ACTIVITY_EDIT = 1;
 
 	private EditText newTaskTitle;
 	private ListView tasksListView;
@@ -50,13 +45,10 @@ public class TodayActivity extends ListActivity implements ModelListener {
 		getModel().addModelListener(this);
 		fillData();
 
-		tasksListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		tasksListView.setOnItemClickListener(new OnTaskItemClickListener());
 		newTaskTitle = (EditText) findViewById(R.id.add_task);
 		newTaskTitle.setInputType(InputType.TYPE_CLASS_TEXT);
 		newTaskTitle.setOnKeyListener(new AddNewTaskOnKeyListener());
 
-		registerForContextMenu(tasksListView);
 	}
 
 	public Model getModel() {
@@ -84,30 +76,6 @@ public class TodayActivity extends ListActivity implements ModelListener {
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		MenuInflater menuInflater = getMenuInflater();
-		menuInflater.inflate(R.menu.today_activity_context_menu, menu);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_delete:
-			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-					.getMenuInfo();
-			getModel().deleteTask(
-					(Task) tasksListView.getItemAtPosition(info.position));
-			return true;
-
-		default:
-			break;
-		}
-		return super.onContextItemSelected(item);
-	}
-
-	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		fillData();
@@ -129,17 +97,30 @@ public class TodayActivity extends ListActivity implements ModelListener {
 		});
 	};
 
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+
+		Toast.makeText(this, "Item click", Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(TodayActivity.this, EditTaskActivity.class);
+		intent.putExtra(KEY_TASKID, ((Task) tasksListView
+				.getItemAtPosition(position)).getId().toString());
+		startActivityForResult(intent, ACTIVITY_EDIT);
+	}
+
 	/**
 	 * 
 	 * @author Mironov S.V.
 	 * @since 24.07.2012
 	 */
 	private class AddNewTaskOnKeyListener implements OnKeyListener {
-
 		public boolean onKey(View v, int keyCode, KeyEvent event) {
 			if ((event.getAction() == KeyEvent.ACTION_DOWN)
 					&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
 				EditText editText = (EditText) v;
+				if (editText.getText().toString().length() == 0) {
+					return false;
+				}
 				getModel().createNewTask(editText.getText().toString());
 				editText.getText().clear();
 
@@ -147,22 +128,14 @@ public class TodayActivity extends ListActivity implements ModelListener {
 			}
 			return false;
 		}
-	};
-
-	/**
-	 * 
-	 * @author Mironov S.V.
-	 * @since 24.07.2012
-	 */
-	private class OnTaskItemClickListener implements OnItemClickListener {
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
-			Intent intent = new Intent(TodayActivity.this,
-					EditTaskActivity.class);
-			intent.putExtra(KEY_TASKID, ((Task) tasksListView
-					.getItemAtPosition(arg2)).getId().toString());
-			startActivity(intent);
-		}
 	}
+
+	public void taskChanged(Task oldTask, Task newTask) {
+		getUiHandler().post(new Runnable() {
+			public void run() {
+				fillData();
+			}
+		});
+	};
 
 }

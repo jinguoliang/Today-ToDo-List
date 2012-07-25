@@ -57,7 +57,12 @@ public class Model {
 	}
 
 	public void saveTask(Task task) {
+		Task oldTask = getTask(task.getId());
 		getSourceAdapter().saveTask(task);
+
+		for (ModelListener listener : getListeners()) {
+			listener.taskChanged(oldTask, task);
+		}
 	}
 
 	public void deleteTask(Task task) {

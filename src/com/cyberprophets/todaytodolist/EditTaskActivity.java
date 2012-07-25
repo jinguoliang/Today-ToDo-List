@@ -1,5 +1,6 @@
 package com.cyberprophets.todaytodolist;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -22,7 +23,6 @@ import com.cyberprophets.todaytodolist.model.Task;
  * @since 23.07.2012
  */
 public class EditTaskActivity extends Activity {
-	private static final int START_YEAR = 1900;
 	private static final String KEY_TASKID = "id";
 
 	private static final int RESULT_OK = 0;
@@ -75,10 +75,11 @@ public class EditTaskActivity extends Activity {
 			Task editingTask = getModel().getTask(editingTaskId);
 			getTaskTitle().setText(editingTask.getTitle());
 			getTaskDescription().setText(editingTask.getDescription());
-			getTaskDate().updateDate(
-					editingTask.getDate().getYear() + START_YEAR,
-					editingTask.getDate().getMonth() - 1,
-					editingTask.getDate().getDay());
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(editingTask.getDate());
+			getTaskDate().updateDate(calendar.get(Calendar.YEAR),
+					calendar.get(Calendar.MONTH),
+					calendar.get(Calendar.DAY_OF_MONTH));
 		}
 	}
 
@@ -117,10 +118,12 @@ public class EditTaskActivity extends Activity {
 	}
 
 	private int saveTask() {
-		String title = getTaskTitle().toString();
-		String description = getTaskDescription().toString();
-		Date date = new Date(getTaskDate().getYear() - START_YEAR,
-				getTaskDate().getMonth(), getTaskDate().getDayOfMonth());
+		String title = getTaskTitle().getText().toString();
+		String description = getTaskDescription().getText().toString();
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(getTaskDate().getYear(), getTaskDate().getMonth(),
+				getTaskDate().getDayOfMonth());
+		Date date = calendar.getTime();
 
 		Task editingTask = getModel().getTask(getEditingTaskId());
 		if (editingTask != null) {

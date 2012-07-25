@@ -56,6 +56,7 @@ public class DatabaseAdapter implements SourceAdapter {
 
 	public void close() {
 		getDatabaseOpenHelper().close();
+		database.close();
 	}
 
 	private DatabaseOpenHelper getDatabaseOpenHelper() {
@@ -122,10 +123,12 @@ public class DatabaseAdapter implements SourceAdapter {
 				null, null, null, null, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
+			Task task = getTaskFromCursor(cursor);
+			cursor.close();
+			return task;
 		}
-		Task task = getTaskFromCursor(cursor);
-		cursor.close();
-		return task;
+
+		return null;
 	}
 
 	public List<Task> getTasksByDate(java.util.Date date) {
