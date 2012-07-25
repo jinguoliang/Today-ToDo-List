@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/delete_task_button"
         android:layout_toRightOf="@+id/task_is_done"
-        android:padding="15dp" />
+        android:padding="15dp"
+        android:singleLine="true" />
 
     <ImageButton
         android:id="@+id/delete_task_button"
