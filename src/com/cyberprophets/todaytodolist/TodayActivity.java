@@ -1,141 +1,35 @@
 package com.cyberprophets.todaytodolist;
 
-import android.app.ListActivity;
+import android.app.Activity;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.InputType;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.View;
-import android.view.View.OnKeyListener;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
-
-import com.cyberprophets.todaytodolist.model.Model;
-import com.cyberprophets.todaytodolist.model.ModelListener;
-import com.cyberprophets.todaytodolist.model.Task;
-import com.cyberprophets.todaytodolist.model.TasksArrayAdapter;
+import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
 
 /**
  * 
  * @author Mironov S.V.
  * @since 24.07.2012
  */
-public class TodayActivity extends ListActivity implements ModelListener {
-	private static final String KEY_TASKID = "id";
-	private static final int ACTIVITY_EDIT = 1;
-
-	private EditText newTaskTitle;
-	private ListView tasksListView;
-	private Model model;
-
-	private final Handler uiHandler = new Handler();
+public class TodayActivity extends TabActivity {
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.today_activity);
-		tasksListView = getListView();
+		TabHost tabHost = getTabHost();
 
-		this.model = new Model(this);
-		getModel().activate();
-		getModel().addModelListener(this);
-		fillData();
+		TabSpec allTasks = tabHost.newTabSpec("tab1");
+		allTasks.setIndicator("All tasks");
+		Intent allTasksIntent = new Intent(this, AllTasksActivity.class);
+		allTasks.setContent(allTasksIntent);
+		tabHost.addTab(allTasks);
 
-		newTaskTitle = (EditText) findViewById(R.id.add_task);
-		newTaskTitle.setInputType(InputType.TYPE_CLASS_TEXT);
-		newTaskTitle.setOnKeyListener(new AddNewTaskOnKeyListener());
-
+		TabSpec tasksByDate = tabHost.newTabSpec("tab2");
+		tasksByDate.setIndicator("Tasks by date");
+		Intent tasksByDateIntent = new Intent(this, TasksByDateActivity.class);
+		tasksByDate.setContent(tasksByDateIntent);
+		tabHost.addTab(tasksByDate);
 	}
-
-	public Model getModel() {
-		return model;
-	}
-
-	public ListView getTasksListView() {
-		return tasksListView;
-	}
-
-	public Handler getUiHandler() {
-		return uiHandler;
-	}
-
-	private void fillData() {
-		ArrayAdapter<Task> adapter = new TasksArrayAdapter(getModel(), this,
-				getModel().getAllTasks());
-		getTasksListView().setAdapter(adapter);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.today_activity, menu);
-		return true;
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		fillData();
-	};
-
-	public void taskCreated(Task task) {
-		getUiHandler().post(new Runnable() {
-			public void run() {
-				fillData();
-			}
-		});
-	}
-
-	public void taskDeleted(Task task) {
-		getUiHandler().post(new Runnable() {
-			public void run() {
-				fillData();
-			}
-		});
-	};
-
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-
-		Toast.makeText(this, "Item click", Toast.LENGTH_SHORT).show();
-		Intent intent = new Intent(TodayActivity.this, EditTaskActivity.class);
-		intent.putExtra(KEY_TASKID, ((Task) tasksListView
-				.getItemAtPosition(position)).getId().toString());
-		startActivityForResult(intent, ACTIVITY_EDIT);
-	}
-
-	/**
-	 * 
-	 * @author Mironov S.V.
-	 * @since 24.07.2012
-	 */
-	private class AddNewTaskOnKeyListener implements OnKeyListener {
-		public boolean onKey(View v, int keyCode, KeyEvent event) {
-			if ((event.getAction() == KeyEvent.ACTION_DOWN)
-					&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
-				EditText editText = (EditText) v;
-				if (editText.getText().toString().length() == 0) {
-					return false;
-				}
-				getModel().createNewTask(editText.getText().toString());
-				editText.getText().clear();
-
-				return true;
-			}
-			return false;
-		}
-	}
-
-	public void taskChanged(Task oldTask, Task newTask) {
-		getUiHandler().post(new Runnable() {
-			public void run() {
-				fillData();
-			}
-		});
-	};
-
 }

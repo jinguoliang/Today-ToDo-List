@@ -14,5 +14,7 @@
     <string name="task_not_saved_message">Error on save task! Task do not exists!</string>
     <string name="delete_task">Delete task</string>
     <string name="edit_task_activity_title">Edit Task</string>
+    <string name="complete_tasks">"Complete tasks"</string>
+    <string name="not_complete_tasks">"Not complete tasks"</string>
 
 </resources>
