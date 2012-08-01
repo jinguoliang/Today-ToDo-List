@@ -16,5 +16,7 @@
     <string name="edit_task_activity_title">Edit Task</string>
     <string name="complete_tasks">"Complete tasks"</string>
     <string name="not_complete_tasks">"Not complete tasks"</string>
+    <string name="previous_date">Previous date</string>
+    <string name="next_date">Next date</string>
 
 </resources>

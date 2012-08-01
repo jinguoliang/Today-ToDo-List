@@ -35,9 +35,7 @@ public abstract class TasksListActivity extends ListActivity implements
 
 	private final Handler uiHandler = new Handler();
 
-	protected void init(int activityLayoutId, int newTasksTitleId,
-			int tasksListFooterId) {
-		setContentView(activityLayoutId);
+	protected void init(int newTasksTitleId, int tasksListFooterId) {
 		tasksListView = getListView();
 		tasksListFooter = (TextView) findViewById(tasksListFooterId);
 		newTaskTitle = (EditText) findViewById(newTasksTitleId);
@@ -145,5 +143,4 @@ public abstract class TasksListActivity extends ListActivity implements
 		fillData();
 	};
 
-	
 }

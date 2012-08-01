@@ -13,8 +13,8 @@ public class AllTasksActivity extends TasksListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		super.init(R.layout.all_tasks_activity_layout, R.id.add_task,
-				R.id.tasks_list_footer);
+		setContentView(R.layout.all_tasks_activity_layout);
+		super.init(R.id.add_task, R.id.tasks_list_footer);
 	}
 
 	@Override

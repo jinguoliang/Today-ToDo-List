@@ -24,15 +24,19 @@ public final class R {
         public static final int add_task=0x7f080000;
         public static final int confirm=0x7f080005;
         public static final int date=0x7f080004;
-        public static final int delete_task_button=0x7f080009;
+        public static final int date_layout=0x7f080006;
+        public static final int delete_task_button=0x7f08000d;
         public static final int description=0x7f080003;
-        public static final int menu_delete=0x7f08000b;
-        public static final int menu_settings=0x7f08000a;
-        public static final int task_is_done=0x7f080007;
-        public static final int task_title=0x7f080008;
+        public static final int menu_delete=0x7f08000f;
+        public static final int menu_settings=0x7f08000e;
+        public static final int next_date_button=0x7f080009;
+        public static final int previous_date_button=0x7f080007;
+        public static final int selected_date=0x7f080008;
+        public static final int task_is_done=0x7f08000b;
+        public static final int task_title=0x7f08000c;
         public static final int tasks_list_footer=0x7f080001;
         public static final int title=0x7f080002;
-        public static final int todo_list_row=0x7f080006;
+        public static final int todo_list_row=0x7f08000a;
     }
     public static final class layout {
         public static final int all_tasks_activity_layout=0x7f030000;
@@ -56,7 +60,9 @@ public final class R {
         public static final int hello_world=0x7f050001;
         public static final int menu_delete=0x7f050005;
         public static final int menu_settings=0x7f050002;
+        public static final int next_date=0x7f050011;
         public static final int not_complete_tasks=0x7f05000f;
+        public static final int previous_date=0x7f050010;
         public static final int task_list_empty=0x7f050004;
         public static final int task_not_saved_message=0x7f05000b;
         public static final int task_saved_message=0x7f05000a;

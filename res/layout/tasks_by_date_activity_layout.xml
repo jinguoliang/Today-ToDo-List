@@ -3,10 +3,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <RelativeLayout
+        android:id="@+id/date_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/previous_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:contentDescription="@string/next_date"
+            android:src="@android:drawable/ic_media_previous" />
+
+        <EditText
+            android:id="@+id/selected_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/next_date_button"
+            android:layout_toRightOf="@+id/previous_date_button"
+            android:focusable="false"
+            android:gravity="center"
+            android:inputType="date" />
+
+        <ImageButton
+            android:id="@+id/next_date_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/previous_date"
+            android:src="@android:drawable/ic_media_next" />
+    </RelativeLayout>
+
     <EditText
         android:id="@+id/add_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/date_layout"
         android:gravity="top"
         android:inputType="text"
         android:singleLine="true" />
