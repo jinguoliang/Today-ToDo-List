@@ -137,6 +137,13 @@ public abstract class TasksListActivity extends ListActivity implements
 				fillData();
 			}
 		});
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		fillData();
 	};
 
+	
 }
