@@ -1,8 +1,10 @@
 package com.cyberprophets.todaytodolist;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.ListActivity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -33,6 +35,8 @@ public abstract class TasksListActivity extends ListActivity implements
 	private ListView tasksListView;
 	private Model model;
 
+	private Calendar date;
+
 	private final Handler uiHandler = new Handler();
 
 	protected void init(int newTasksTitleId, int tasksListFooterId) {
@@ -40,6 +44,9 @@ public abstract class TasksListActivity extends ListActivity implements
 		tasksListFooter = (TextView) findViewById(tasksListFooterId);
 		newTaskTitle = (EditText) findViewById(newTasksTitleId);
 		newTaskTitle.setInputType(InputType.TYPE_CLASS_TEXT);
+
+		date = Calendar.getInstance();
+		date.setTime(new Date());
 
 		this.model = new Model(this);
 		getModel().activate();
@@ -55,6 +62,10 @@ public abstract class TasksListActivity extends ListActivity implements
 
 	protected Model getModel() {
 		return model;
+	}
+
+	public Calendar getDate() {
+		return date;
 	}
 
 	protected ListView getTasksListView() {
@@ -120,7 +131,8 @@ public abstract class TasksListActivity extends ListActivity implements
 				if (editText.getText().toString().length() == 0) {
 					return false;
 				}
-				getModel().createNewTask(editText.getText().toString());
+				getModel().createNewTask(editText.getText().toString(),
+						getDate().getTime());
 				editText.getText().clear();
 
 				return true;

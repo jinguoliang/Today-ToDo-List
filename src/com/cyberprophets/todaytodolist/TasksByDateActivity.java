@@ -2,7 +2,6 @@ package com.cyberprophets.todaytodolist;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.os.Bundle;
@@ -25,7 +24,6 @@ public class TasksByDateActivity extends TasksListActivity {
 	private ImageButton nextDateButton;
 	private ImageButton previousDateButton;
 	private EditText selectedDateText;
-	private Calendar selectedDate;
 
 	private static String DATE_FORMAT = "dd.MM.yyyy";
 
@@ -37,8 +35,6 @@ public class TasksByDateActivity extends TasksListActivity {
 		previousDateButton = (ImageButton) findViewById(R.id.previous_date_button);
 		nextDateButton = (ImageButton) findViewById(R.id.next_date_button);
 		selectedDateText = (EditText) findViewById(R.id.selected_date);
-		selectedDate = Calendar.getInstance();
-		selectedDate.setTime(new Date());
 
 		super.init(R.id.add_task, R.id.tasks_list_footer);
 
@@ -59,14 +55,9 @@ public class TasksByDateActivity extends TasksListActivity {
 		return selectedDateText;
 	}
 
-	public Calendar getSelectedDate() {
-		return selectedDate;
-	}
-
 	@Override
 	protected void fillData() {
-		List<Task> tasks = getModel().getTasksByDate(
-				getSelectedDate().getTime());
+		List<Task> tasks = getModel().getTasksByDate(getDate().getTime());
 		ArrayAdapter<Task> adapter = new TasksArrayAdapter(getModel(), this,
 				tasks);
 		getTasksListView().setAdapter(adapter);
@@ -84,14 +75,14 @@ public class TasksByDateActivity extends TasksListActivity {
 						+ doneTasksCount);
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
-		String date = simpleDateFormat.format(getSelectedDate().getTime());
+		String date = simpleDateFormat.format(getDate().getTime());
 		getSelectedDateText().setText(date);
 	}
 
 	private class PreviousDateButtonOnClickListener implements OnClickListener {
 
 		public void onClick(View arg0) {
-			getSelectedDate().add(Calendar.DAY_OF_MONTH, -1);
+			getDate().add(Calendar.DAY_OF_MONTH, -1);
 			fillData();
 		}
 
@@ -100,7 +91,7 @@ public class TasksByDateActivity extends TasksListActivity {
 	private class NextDateButtonOnClickListener implements OnClickListener {
 
 		public void onClick(View arg0) {
-			getSelectedDate().add(Calendar.DAY_OF_MONTH, 1);
+			getDate().add(Calendar.DAY_OF_MONTH, 1);
 			fillData();
 		}
 

@@ -44,7 +44,11 @@ public class Model {
 	}
 
 	public void createNewTask(String title) {
-		Task task = new Task(title, new Date());
+		createNewTask(title, new Date());
+	}
+
+	public void createNewTask(String title, Date date) {
+		Task task = new Task(title, date);
 		getSourceAdapter().saveTask(task);
 
 		for (ModelListener listener : getListeners()) {
