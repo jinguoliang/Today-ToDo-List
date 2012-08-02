@@ -26,4 +26,6 @@ public interface SourceAdapter {
 	public Task getTask(UUID id);
 
 	public List<Task> getTasksByDate(Date date);
+
+	public List<Task> getNotCompleteTasks();
 }

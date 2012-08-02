@@ -18,5 +18,6 @@
     <string name="not_complete_tasks">"Not complete tasks"</string>
     <string name="previous_date">Previous date</string>
     <string name="next_date">Next date</string>
+    <string name="today_to_do_list">Today To Do List</string>
 
 </resources>

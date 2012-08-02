@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import com.cyberprophets.todaytodolist.model.Task;
 import com.cyberprophets.todaytodolist.model.TasksArrayAdapter;
 
-public class AllTasksActivity extends TasksListActivity {
+public class NoteCompleteTasksActivity extends TasksListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class AllTasksActivity extends TasksListActivity {
 
 	@Override
 	protected void fillData() {
-		List<Task> tasks = getModel().getAllTasks();
+		List<Task> tasks = getModel().getNotCompleteTasks();
 		ArrayAdapter<Task> adapter = new TasksArrayAdapter(getModel(), this,
 				tasks);
 		getTasksListView().setAdapter(adapter);
@@ -32,9 +32,7 @@ public class AllTasksActivity extends TasksListActivity {
 
 		getTasksListFooter().setText(
 				getString(R.string.not_complete_tasks) + ": "
-						+ (tasks.size() - doneTasksCount) + "; "
-						+ getString(R.string.complete_tasks) + ": "
-						+ doneTasksCount);
+						+ (tasks.size() - doneTasksCount));
 	}
 
 }

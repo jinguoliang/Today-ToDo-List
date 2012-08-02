@@ -68,6 +68,7 @@ public final class R {
         public static final int task_saved_message=0x7f05000a;
         public static final int title=0x7f050006;
         public static final int title_activity_today=0x7f050003;
+        public static final int today_to_do_list=0x7f050012;
     }
     public static final class style {
         public static final int AppTheme=0x7f060000;

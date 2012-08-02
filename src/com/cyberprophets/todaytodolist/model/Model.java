@@ -81,6 +81,10 @@ public class Model {
 		return getSourceAdapter().getTasksByDate(date);
 	}
 
+	public List<Task> getNotCompleteTasks() {
+		return getSourceAdapter().getNotCompleteTasks();
+	}
+
 	public List<Task> getAllTasks() {
 		return getSourceAdapter().getAllTasks();
 	}

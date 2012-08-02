@@ -209,4 +209,15 @@ public class DatabaseAdapter implements SourceAdapter {
 
 	}
 
+	public List<Task> getNotCompleteTasks() {
+		Cursor cursor = getDatabase().query(
+				DATABASE_TABLE,
+				new String[] { KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_DATE,
+						KEY_DONE }, KEY_DONE + "=" + "\'0\'", null, null, null,
+				null);
+		List<Task> tasks = getTasksFromCursor(cursor);
+		cursor.close();
+		return tasks;
+	}
+
 }

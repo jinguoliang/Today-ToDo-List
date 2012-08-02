@@ -19,16 +19,17 @@ public class TodayActivity extends TabActivity {
 		setContentView(R.layout.today_activity);
 		TabHost tabHost = getTabHost();
 
-		TabSpec allTasks = tabHost.newTabSpec("tab1");
-		allTasks.setIndicator("All tasks");
-		Intent allTasksIntent = new Intent(this, AllTasksActivity.class);
-		allTasks.setContent(allTasksIntent);
-		tabHost.addTab(allTasks);
-
-		TabSpec tasksByDate = tabHost.newTabSpec("tab2");
+		TabSpec tasksByDate = tabHost.newTabSpec("tab1");
 		tasksByDate.setIndicator("Tasks by date");
 		Intent tasksByDateIntent = new Intent(this, TasksByDateActivity.class);
 		tasksByDate.setContent(tasksByDateIntent);
 		tabHost.addTab(tasksByDate);
+
+		TabSpec noteCompleteTasks = tabHost.newTabSpec("tab2");
+		noteCompleteTasks.setIndicator("Not complete tasks");
+		Intent noteCompleteTasksIntent = new Intent(this,
+				NoteCompleteTasksActivity.class);
+		noteCompleteTasks.setContent(noteCompleteTasksIntent);
+		tabHost.addTab(noteCompleteTasks);
 	}
 }
