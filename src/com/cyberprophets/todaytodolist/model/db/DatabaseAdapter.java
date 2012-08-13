@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.cyberprophets.todaytodolist.model.Category;
 import com.cyberprophets.todaytodolist.model.SourceAdapter;
 import com.cyberprophets.todaytodolist.model.Task;
 
@@ -24,14 +25,17 @@ import com.cyberprophets.todaytodolist.model.Task;
  */
 public class DatabaseAdapter implements SourceAdapter {
 	private static final String DATABASE_NAME = "data";
-	private static final String DATABASE_TABLE = "tasks";
-	private static final int DATABASE_VERSION = 3;
+	private static final String TASKS_TABLE = "tasks";
+	private static final String CATEGORY_TABLE = "category";
+	private static final int DATABASE_VERSION = 4;
 
 	private static final String KEY_ID = "id";
 	private static final String KEY_TITLE = "title";
 	private static final String KEY_DESCRIPTION = "description";
 	private static final String KEY_DATE = "date";
 	private static final String KEY_DONE = "done";
+	private static final String KEY_CATEGORY_ID = "category_id";
+	private static final String KEY_NAME = "name";
 
 	private static final String DATE_FORMAT = "yyyy-MM-dd";
 
@@ -39,10 +43,16 @@ public class DatabaseAdapter implements SourceAdapter {
 	private SQLiteDatabase database;
 	private final Context context;
 
-	private static final String DATABASE_CREATE = "create table "
-			+ DATABASE_TABLE + " (" + KEY_ID + " text primary key, "
-			+ KEY_TITLE + " text not null, " + KEY_DESCRIPTION + " text, "
-			+ KEY_DATE + " text not null, " + KEY_DONE + " integer not null);";
+	private static final String CREATE_TASKS_TABLE = "create table "
+			+ TASKS_TABLE + " (" + KEY_ID + " text primary key, " + KEY_TITLE
+			+ " text not null, " + KEY_DESCRIPTION + " text, " + KEY_DATE
+			+ " text not null, " + KEY_DONE + " integer not null, "
+			+ KEY_CATEGORY_ID + " text, foreign key (" + KEY_CATEGORY_ID
+			+ ") references " + CATEGORY_TABLE + " (" + KEY_ID + "));";
+
+	private static final String CREATE_CATEGORY_TABLE = "create table "
+			+ CATEGORY_TABLE + " (" + KEY_ID + "text primary key, " + KEY_NAME
+			+ " text not null, unique ( " + KEY_NAME + "));";
 
 	public DatabaseAdapter(Context context) {
 		this.context = context;
@@ -73,9 +83,10 @@ public class DatabaseAdapter implements SourceAdapter {
 
 	public List<Task> getAllTasks() {
 		Cursor cursor = getDatabase().query(
-				DATABASE_TABLE,
+				TASKS_TABLE,
 				new String[] { KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_DATE,
-						KEY_DONE }, null, null, null, null, null);
+						KEY_DONE, KEY_CATEGORY_ID }, null, null, null, null,
+				null);
 		List<Task> tasks = getTasksFromCursor(cursor);
 		cursor.close();
 		return tasks;
@@ -96,11 +107,14 @@ public class DatabaseAdapter implements SourceAdapter {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 		String date = simpleDateFormat.format(task.getDate());
 		contentValues.put(KEY_DATE, date);
+		String categoryID = task.getCategory() != null ? task.getCategory()
+				.getId().toString() : new String();
+		contentValues.put(KEY_CATEGORY_ID, categoryID);
 
 		if (getTask(task.getId()) == null) {
-			return getDatabase().insert(DATABASE_TABLE, null, contentValues) != -1;
+			return getDatabase().insert(TASKS_TABLE, null, contentValues) != -1;
 		} else {
-			return getDatabase().update(DATABASE_TABLE, contentValues,
+			return getDatabase().update(TASKS_TABLE, contentValues,
 					KEY_ID + "=" + "\'" + task.getId() + "\'", null) > 0;
 		}
 	}
@@ -110,17 +124,18 @@ public class DatabaseAdapter implements SourceAdapter {
 	}
 
 	public boolean deleteTask(UUID id) {
-		return getDatabase().delete(DATABASE_TABLE,
+		return getDatabase().delete(TASKS_TABLE,
 				KEY_ID + "=" + "\'" + id.toString() + "\'", null) > 0;
 	}
 
 	public Task getTask(UUID id) {
 		Cursor cursor = getDatabase().query(
 				true,
-				DATABASE_TABLE,
+				TASKS_TABLE,
 				new String[] { KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_DATE,
-						KEY_DONE }, KEY_ID + "=" + "\'" + id.toString() + "\'",
-				null, null, null, null, null);
+						KEY_DONE, KEY_CATEGORY_ID },
+				KEY_ID + "=" + "\'" + id.toString() + "\'", null, null, null,
+				null, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
 			Task task = getTaskFromCursor(cursor);
@@ -139,10 +154,10 @@ public class DatabaseAdapter implements SourceAdapter {
 		String tmp = simpleDateFormat.format(date);
 
 		Cursor cursor = getDatabase().query(
-				DATABASE_TABLE,
+				TASKS_TABLE,
 				new String[] { KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_DATE,
-						KEY_DONE }, KEY_DATE + "=" + "\'" + tmp + "\'", null,
-				null, null, null);
+						KEY_DONE, KEY_CATEGORY_ID },
+				KEY_DATE + "=" + "\'" + tmp + "\'", null, null, null, null);
 		List<Task> tasks = getTasksFromCursor(cursor);
 		cursor.close();
 		return tasks;
@@ -174,15 +189,141 @@ public class DatabaseAdapter implements SourceAdapter {
 				: false;
 		String date = cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE));
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-
+		String categoryID = cursor.getString(cursor
+				.getColumnIndexOrThrow(KEY_CATEGORY_ID));
 		Task task = null;
 		try {
-			task = new Task(UUID.fromString(uuid), title, description,
-					dateFormat.parse(date), done);
+			if (categoryID.length() != 0) {
+				task = new Task(UUID.fromString(uuid), title, description,
+						dateFormat.parse(date), done,
+						getCategory(UUID.fromString(categoryID)));
+			} else {
+				task = new Task(UUID.fromString(uuid), title, description,
+						dateFormat.parse(date), done, null);
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return task;
+	}
+
+	public List<Task> getNotCompleteTasks() {
+		Cursor cursor = getDatabase().query(
+				TASKS_TABLE,
+				new String[] { KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_DATE,
+						KEY_DONE, KEY_CATEGORY_ID }, KEY_DONE + "=" + "\'0\'",
+				null, null, null, null);
+		List<Task> tasks = getTasksFromCursor(cursor);
+		cursor.close();
+		return tasks;
+	}
+
+	public List<Category> getAllCategories() {
+		Cursor cursor = getDatabase()
+				.query(CATEGORY_TABLE, new String[] { KEY_ID, KEY_NAME }, null,
+						null, null, null, null);
+		List<Category> categories = getCategoriesFromCursor(cursor);
+		cursor.close();
+		return categories;
+	}
+
+	public Category getCategory(String name) {
+		Cursor cursor = getDatabase().query(true, CATEGORY_TABLE,
+				new String[] { KEY_ID, KEY_NAME },
+				KEY_NAME + "=" + "\'" + name + "\'", null, null, null, null,
+				null);
+		if (cursor != null) {
+			cursor.moveToFirst();
+			Category category = getCategoryFromCursor(cursor);
+			cursor.close();
+			return category;
+		}
+
+		return null;
+	}
+
+	public List<Task> getTasksForCategory(Category category) {
+		if (category == null) {
+			throw new NullPointerException();
+		}
+		Cursor cursor = getDatabase().query(
+				TASKS_TABLE,
+				new String[] { KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_DATE,
+						KEY_DONE, KEY_CATEGORY_ID },
+				KEY_CATEGORY_ID + "=" + "\'" + category.getId().toString()
+						+ "\'", null, null, null, null);
+		List<Task> tasks = getTasksFromCursor(cursor);
+		cursor.close();
+		return tasks;
+	}
+
+	public boolean saveCategory(Category category) {
+		if (category == null || category.getId() == null) {
+			return false;
+		}
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(KEY_ID, category.getId().toString());
+		contentValues.put(KEY_NAME, category.getName());
+
+		if (getCategory(category.getId()) == null) {
+			return getDatabase().insert(CATEGORY_TABLE, null, contentValues) != -1;
+		} else {
+			return getDatabase().update(CATEGORY_TABLE, contentValues,
+					KEY_ID + "=" + "\'" + category.getId() + "\'", null) > 0;
+		}
+	}
+
+	public boolean deleteCategory(UUID id) {
+		return getDatabase().delete(CATEGORY_TABLE,
+				KEY_ID + "=" + "\'" + id.toString() + "\'", null) > 0;
+	}
+
+	public boolean deleteCategory(Category category) {
+		List<Task> tasks = getTasksForCategory(category);
+		for (Task task : tasks) {
+			deleteTask(task);
+		}
+		return deleteCategory(category.getId());
+	}
+
+	public Category getCategory(UUID id) {
+		Cursor cursor = getDatabase().query(true, CATEGORY_TABLE,
+				new String[] { KEY_ID, KEY_NAME },
+				KEY_ID + "=" + "\'" + id.toString() + "\'", null, null, null,
+				null, null);
+		if (cursor != null) {
+			cursor.moveToFirst();
+			Category category = getCategoryFromCursor(cursor);
+			cursor.close();
+			return category;
+		}
+
+		return null;
+	}
+
+	private Category getCategoryFromCursor(Cursor cursor) {
+		if (cursor == null || cursor.isClosed() || cursor.isBeforeFirst()) {
+			return null;
+		}
+		String uuid = cursor.getString(cursor.getColumnIndexOrThrow(KEY_ID));
+		String name = cursor.getString(cursor.getColumnIndexOrThrow(KEY_NAME));
+
+		Category category = null;
+		category = new Category(UUID.fromString(uuid), name);
+		return category;
+	}
+
+	private List<Category> getCategoriesFromCursor(Cursor cursor) {
+		List<Category> categories = new ArrayList<Category>();
+		if (cursor == null || cursor.isClosed()) {
+			return categories;
+		}
+		cursor.moveToFirst();
+		for (int i = 0; i < cursor.getCount(); ++i) {
+			categories.add(getCategoryFromCursor(cursor));
+			cursor.moveToNext();
+		}
+		return categories;
 	}
 
 	/**
@@ -198,26 +339,16 @@ public class DatabaseAdapter implements SourceAdapter {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(DATABASE_CREATE);
+			db.execSQL(CREATE_TASKS_TABLE);
+			db.execSQL(CREATE_CATEGORY_TABLE);
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// db.execSQL("drop table " + DATABASE_TABLE + " ;");
+			db.execSQL("drop table " + TASKS_TABLE + " ;");
+			onCreate(db);
 			// db.execSQL(DATABASE_CREATE);
 		}
-
-	}
-
-	public List<Task> getNotCompleteTasks() {
-		Cursor cursor = getDatabase().query(
-				DATABASE_TABLE,
-				new String[] { KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_DATE,
-						KEY_DONE }, KEY_DONE + "=" + "\'0\'", null, null, null,
-				null);
-		List<Task> tasks = getTasksFromCursor(cursor);
-		cursor.close();
-		return tasks;
 	}
 
 }

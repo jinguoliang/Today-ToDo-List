@@ -22,7 +22,7 @@
         android:lines="3"
         android:padding="15dp"
         android:singleLine="false"
-        android:textSize="10dp" />
+        android:textSize="12dp" />
 
     <ImageButton
         android:id="@+id/delete_task_button"

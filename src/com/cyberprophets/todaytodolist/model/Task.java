@@ -3,12 +3,19 @@ package com.cyberprophets.todaytodolist.model;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * Класс, описывающий задачу
+ * 
+ * @author Mironov S.V.
+ * @since 13.08.2012
+ */
 public class Task {
 	private UUID id;
 	private String title;
 	private String description;
 	private Date date;
 	private boolean done;
+	private Category category;
 
 	public Task() {
 		id = UUID.randomUUID();
@@ -28,6 +35,12 @@ public class Task {
 		setDescription(description);
 		setDate(date);
 		setDone(done);
+	}
+
+	public Task(UUID id, String title, String description, Date date,
+			boolean done, Category category) {
+		this(id, title, description, date, done);
+		setCategory(category);
 	}
 
 	public UUID getId() {
@@ -70,4 +83,11 @@ public class Task {
 		this.done = done;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 }

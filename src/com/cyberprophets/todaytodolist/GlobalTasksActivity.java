@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import com.cyberprophets.todaytodolist.model.Task;
 import com.cyberprophets.todaytodolist.model.TasksArrayAdapter;
 
-public class NoteCompleteTasksActivity extends TasksListActivity {
+public class GlobalTasksActivity extends TasksListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

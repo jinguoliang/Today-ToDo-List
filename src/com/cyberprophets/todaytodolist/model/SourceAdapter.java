@@ -28,4 +28,18 @@ public interface SourceAdapter {
 	public List<Task> getTasksByDate(Date date);
 
 	public List<Task> getNotCompleteTasks();
+
+	public List<Category> getAllCategories();
+
+	public Category getCategory(UUID id);
+
+	public Category getCategory(String name);
+
+	public List<Task> getTasksForCategory(Category category);
+
+	public boolean saveCategory(Category category);
+
+	public boolean deleteCategory(UUID id);
+
+	public boolean deleteCategory(Category category);
 }

@@ -37,21 +37,41 @@
             android:src="@android:drawable/ic_media_next" />
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/add_task"
+    <RelativeLayout
+        android:id="@+id/add_task_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/date_layout"
-        android:gravity="top"
-        android:inputType="text"
-        android:singleLine="true" />
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/add_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:inputType="text"
+            android:singleLine="true" />
+
+        <!--
+          <ImageButton
+
+          android:id="@+id/add_task_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/add_task"
+            android:gravity="top"
+            android:src="@drawable/ic_add_task" />
+        -->
+
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/tasks_list_footer"
-        android:layout_below="@+id/add_task"
+        android:layout_below="@+id/add_task_layout"
         android:drawSelectorOnTop="false" />
 
     <TextView

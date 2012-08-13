@@ -17,26 +17,29 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_action_search=0x7f020000;
-        public static final int ic_delete_task=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
+        public static final int ic_add_task=0x7f020001;
+        public static final int ic_delete_task=0x7f020002;
+        public static final int ic_edit_task=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
     }
     public static final class id {
         public static final int add_task=0x7f080000;
+        public static final int add_task_layout=0x7f08000a;
         public static final int confirm=0x7f080005;
         public static final int date=0x7f080004;
         public static final int date_layout=0x7f080006;
-        public static final int delete_task_button=0x7f08000d;
+        public static final int delete_task_button=0x7f08000e;
         public static final int description=0x7f080003;
-        public static final int menu_delete=0x7f08000f;
-        public static final int menu_settings=0x7f08000e;
+        public static final int menu_delete=0x7f080010;
+        public static final int menu_settings=0x7f08000f;
         public static final int next_date_button=0x7f080009;
         public static final int previous_date_button=0x7f080007;
         public static final int selected_date=0x7f080008;
-        public static final int task_is_done=0x7f08000b;
-        public static final int task_title=0x7f08000c;
+        public static final int task_is_done=0x7f08000c;
+        public static final int task_title=0x7f08000d;
         public static final int tasks_list_footer=0x7f080001;
         public static final int title=0x7f080002;
-        public static final int todo_list_row=0x7f08000a;
+        public static final int todo_list_row=0x7f08000b;
     }
     public static final class layout {
         public static final int all_tasks_activity_layout=0x7f030000;
@@ -50,12 +53,14 @@ public final class R {
         public static final int today_activity_context_menu=0x7f070001;
     }
     public static final class string {
+        public static final int add_task=0x7f050014;
         public static final int app_name=0x7f050000;
         public static final int complete_tasks=0x7f05000e;
         public static final int confirm=0x7f050008;
         public static final int date=0x7f050009;
         public static final int delete_task=0x7f05000c;
         public static final int description=0x7f050007;
+        public static final int edit_task=0x7f050013;
         public static final int edit_task_activity_title=0x7f05000d;
         public static final int hello_world=0x7f050001;
         public static final int menu_delete=0x7f050005;

@@ -26,9 +26,9 @@ public class TodayActivity extends TabActivity {
 		tabHost.addTab(tasksByDate);
 
 		TabSpec noteCompleteTasks = tabHost.newTabSpec("tab2");
-		noteCompleteTasks.setIndicator("Not complete tasks");
+		noteCompleteTasks.setIndicator("Global tasks");
 		Intent noteCompleteTasksIntent = new Intent(this,
-				NoteCompleteTasksActivity.class);
+				GlobalTasksActivity.class);
 		noteCompleteTasks.setContent(noteCompleteTasksIntent);
 		tabHost.addTab(noteCompleteTasks);
 	}

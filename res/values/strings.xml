@@ -19,5 +19,7 @@
     <string name="previous_date">Previous date</string>
     <string name="next_date">Next date</string>
     <string name="today_to_do_list">Today To Do List</string>
+    <string name="edit_task">Edit task</string>
+    <string name="add_task">Add task</string>
 
 </resources>
