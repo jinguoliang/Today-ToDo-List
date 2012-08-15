@@ -7,7 +7,6 @@ import java.util.List;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -58,7 +57,7 @@ public class TasksByDateActivity extends TasksListActivity {
 	@Override
 	protected void fillData() {
 		List<Task> tasks = getModel().getTasksByDate(getDate().getTime());
-		ArrayAdapter<Task> adapter = new TasksArrayAdapter(getModel(), this,
+		TasksArrayAdapter adapter = new TasksArrayAdapter(getModel(), this,
 				tasks);
 		getTasksListView().setAdapter(adapter);
 		int doneTasksCount = 0;

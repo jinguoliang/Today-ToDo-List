@@ -3,7 +3,6 @@ package com.cyberprophets.todaytodolist;
 import java.util.List;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 
 import com.cyberprophets.todaytodolist.model.Task;
 import com.cyberprophets.todaytodolist.model.TasksArrayAdapter;
@@ -20,7 +19,7 @@ public class GlobalTasksActivity extends TasksListActivity {
 	@Override
 	protected void fillData() {
 		List<Task> tasks = getModel().getNotCompleteTasks();
-		ArrayAdapter<Task> adapter = new TasksArrayAdapter(getModel(), this,
+		TasksArrayAdapter adapter = new TasksArrayAdapter(getModel(), this,
 				tasks);
 		getTasksListView().setAdapter(adapter);
 		int doneTasksCount = 0;

@@ -21,5 +21,6 @@
     <string name="today_to_do_list">Today To Do List</string>
     <string name="edit_task">Edit task</string>
     <string name="add_task">Add task</string>
+    <string name="note">Note:</string>
 
 </resources>

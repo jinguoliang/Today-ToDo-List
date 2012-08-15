@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.ModelListener;
 import com.cyberprophets.todaytodolist.model.Task;
+import com.cyberprophets.todaytodolist.model.TasksArrayAdapter;
 
 /**
  * 
@@ -108,14 +109,21 @@ public abstract class TasksListActivity extends ListActivity implements
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
+		// super.onListItemClick(l, v, position, id);
 
-		Toast.makeText(this, "Item click", Toast.LENGTH_SHORT).show();
-		Intent intent = new Intent(TasksListActivity.this,
-				EditTaskActivity.class);
-		intent.putExtra(KEY_TASKID, ((Task) tasksListView
-				.getItemAtPosition(position)).getId().toString());
-		startActivityForResult(intent, ACTIVITY_EDIT);
+		// ((TasksArrayAdapter) getListAdapter()).toggle(position);
+//		getUiHandler().post(new Runnable() {
+//			public void run() {
+//				Toast.makeText(TasksListActivity.this, "Item click",
+//						Toast.LENGTH_SHORT).show();
+//			}
+//		});
+
+		// Intent intent = new Intent(TasksListActivity.this,
+		// EditTaskActivity.class);
+		// intent.putExtra(KEY_TASKID, ((Task) tasksListView
+		// .getItemAtPosition(position)).getId().toString());
+		// startActivityForResult(intent, ACTIVITY_EDIT);
 	}
 
 	/**
