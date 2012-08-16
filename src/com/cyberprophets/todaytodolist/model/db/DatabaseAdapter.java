@@ -27,7 +27,7 @@ public class DatabaseAdapter implements SourceAdapter {
 	private static final String DATABASE_NAME = "data";
 	private static final String TASKS_TABLE = "tasks";
 	private static final String CATEGORY_TABLE = "category";
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 5;
 
 	private static final String KEY_ID = "id";
 	private static final String KEY_TITLE = "title";
@@ -37,7 +37,8 @@ public class DatabaseAdapter implements SourceAdapter {
 	private static final String KEY_CATEGORY_ID = "category_id";
 	private static final String KEY_NAME = "name";
 
-	private static final String DATE_FORMAT = "yyyy-MM-dd";
+	private static final String SIMPLE_DATE_FROMAT = "yyyy-MM-dd";
+	private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 	private DatabaseOpenHelper databaseOpenHelper;
 	private SQLiteDatabase database;
@@ -146,18 +147,22 @@ public class DatabaseAdapter implements SourceAdapter {
 		return null;
 	}
 
+	/**
+	 * На выбор задач оказывает влияние только год, месяц и день.
+	 */
 	public List<Task> getTasksByDate(java.util.Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+				SIMPLE_DATE_FROMAT);
 		String tmp = simpleDateFormat.format(date);
 
 		Cursor cursor = getDatabase().query(
 				TASKS_TABLE,
 				new String[] { KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_DATE,
 						KEY_DONE, KEY_CATEGORY_ID },
-				KEY_DATE + "=" + "\'" + tmp + "\'", null, null, null, null);
+				KEY_DATE + " like '%" + tmp + "%'", null, null, null, null);
 		List<Task> tasks = getTasksFromCursor(cursor);
 		cursor.close();
 		return tasks;
@@ -346,6 +351,7 @@ public class DatabaseAdapter implements SourceAdapter {
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			db.execSQL("drop table " + TASKS_TABLE + " ;");
+			db.execSQL("drop table " + CATEGORY_TABLE + " ;");
 			onCreate(db);
 			// db.execSQL(DATABASE_CREATE);
 		}

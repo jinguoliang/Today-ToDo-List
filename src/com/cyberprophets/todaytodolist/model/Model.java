@@ -15,13 +15,12 @@ import com.cyberprophets.todaytodolist.model.db.DatabaseAdapter;
  * @since 18.07.2012
  */
 public class Model {
-	private List<ModelListener> listeners;
+	private static List<ModelListener> listeners = new ArrayList<ModelListener>();
 	private final Context context;
 	private SourceAdapter sourceAdapter;
 
 	public Model(Context context) {
 		this.context = context;
-		listeners = new ArrayList<ModelListener>();
 		setSourceAdapter(new DatabaseAdapter(getContext()));
 	}
 

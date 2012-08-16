@@ -90,4 +90,22 @@ public class Task {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Task)) {
+			return false;
+		}
+		Task task = (Task) o;
+		return getId().equals(task.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
+
 }

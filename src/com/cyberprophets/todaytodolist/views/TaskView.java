@@ -1,4 +1,4 @@
-package com.cyberprophets.todaytodolist.model;
+package com.cyberprophets.todaytodolist.views;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cyberprophets.todaytodolist.R;
+import com.cyberprophets.todaytodolist.model.Model;
+import com.cyberprophets.todaytodolist.model.Task;
 
 /**
  * Класс, отвечающий за отображение задачи
@@ -18,49 +20,49 @@ import com.cyberprophets.todaytodolist.R;
  * @since 15.08.2012
  */
 public class TaskView extends LinearLayout {
-	private TextView title;
-	private TextView note;
-	private CheckBox isDone;
-	private ImageButton deleteButton;
+	private final TextView title;
+	private final TextView note;
+	private final CheckBox isDone;
+	private final ImageButton deleteButton;
 	private Task task;
-	private Model model;
+	private final Model model;
+	private final View noteLayout;
 
 	public TaskView(Context context, Task task, Model model) {
 		super(context);
-		this.model = model;
-		setTask(task);
 		View view = inflate(getContext(), R.layout.task_view, null);
 		addView(view);
+
+		this.model = model;
+		setTask(task);
 		title = (TextView) findViewById(R.id.task_title);
 		note = (TextView) findViewById(R.id.task_note);
 		isDone = (CheckBox) view.findViewById(R.id.task_is_done);
 		deleteButton = (ImageButton) view.findViewById(R.id.delete_task_button);
+		noteLayout = findViewById(R.id.note_layout);
 
 		fillView();
-		showNote(false);
 
 		getIsDone().setOnCheckedChangeListener(
 				new OnCheckedTaskDoneChangeListener());
 		getDeleteButton().setOnClickListener(
 				new DeleteTaskButtonOnClickListener());
+
+		showNote(false);
 	}
 
-	public void toggleNote() {
-		showNote(!noteIsShow());
-	}
-
-	public boolean noteIsShow() {
-		if (findViewById(R.id.note_layout).getVisibility() == VISIBLE) {
-			return true;
-		}
-		return false;
+	private View getNoteLayout() {
+		return noteLayout;
 	}
 
 	public void showNote(boolean show) {
-		findViewById(R.id.note_layout).setVisibility(show ? VISIBLE : GONE);
+		getNoteLayout().setVisibility(show ? VISIBLE : GONE);
 	}
 
 	public void fillView() {
+		if (getTask() == null) {
+			return;
+		}
 		getTitle().setText(getTask().getTitle());
 		getNote().setText(getTask().getDescription());
 		if (getTask().isDone()) {

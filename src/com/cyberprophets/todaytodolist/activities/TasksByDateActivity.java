@@ -1,8 +1,7 @@
-package com.cyberprophets.todaytodolist;
+package com.cyberprophets.todaytodolist.activities;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +9,9 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import com.cyberprophets.todaytodolist.model.Task;
-import com.cyberprophets.todaytodolist.model.TasksArrayAdapter;
+import com.cyberprophets.todaytodolist.R;
+import com.cyberprophets.todaytodolist.adapters.TasksAdapter;
+import com.cyberprophets.todaytodolist.adapters.TasksByDateAdapter;
 
 /**
  * 
@@ -19,7 +19,6 @@ import com.cyberprophets.todaytodolist.model.TasksArrayAdapter;
  * @since 01.08.2012
  */
 public class TasksByDateActivity extends TasksListActivity {
-
 	private ImageButton nextDateButton;
 	private ImageButton previousDateButton;
 	private EditText selectedDateText;
@@ -56,22 +55,23 @@ public class TasksByDateActivity extends TasksListActivity {
 
 	@Override
 	protected void fillData() {
-		List<Task> tasks = getModel().getTasksByDate(getDate().getTime());
-		TasksArrayAdapter adapter = new TasksArrayAdapter(getModel(), this,
-				tasks);
-		getTasksListView().setAdapter(adapter);
-		int doneTasksCount = 0;
-		for (Task task : tasks) {
-			if (task.isDone()) {
-				doneTasksCount++;
-			}
+		if (getListAdapter() == null) {
+			TasksAdapter adapter = new TasksByDateAdapter(getModel(), this,
+					getDate().getTime());
+			setListAdapter(adapter);
 		}
-
-		getTasksListFooter().setText(
-				getString(R.string.not_complete_tasks) + ": "
-						+ (tasks.size() - doneTasksCount) + "; "
-						+ getString(R.string.complete_tasks) + ": "
-						+ doneTasksCount);
+		// int doneTasksCount = 0;
+		// for (Task task : adapter.getI) {
+		// if (task.isDone()) {
+		// doneTasksCount++;
+		// }
+		// }
+		//
+		// getTasksListFooter().setText(
+		// getString(R.string.not_complete_tasks) + ": "
+		// + (tasks.size() - doneTasksCount) + "; "
+		// + getString(R.string.complete_tasks) + ": "
+		// + doneTasksCount);
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 		String date = simpleDateFormat.format(getDate().getTime());

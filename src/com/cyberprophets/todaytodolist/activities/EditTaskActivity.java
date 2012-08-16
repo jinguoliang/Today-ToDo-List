@@ -1,4 +1,4 @@
-package com.cyberprophets.todaytodolist;
+package com.cyberprophets.todaytodolist.activities;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -13,6 +13,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cyberprophets.todaytodolist.R;
+import com.cyberprophets.todaytodolist.R.id;
+import com.cyberprophets.todaytodolist.R.layout;
+import com.cyberprophets.todaytodolist.R.string;
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.Task;
 
