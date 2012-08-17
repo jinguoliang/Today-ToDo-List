@@ -27,11 +27,11 @@ public class TodayActivity extends TabActivity {
 		tasksByDate.setContent(tasksByDateIntent);
 		tabHost.addTab(tasksByDate);
 
-		TabSpec noteCompleteTasks = tabHost.newTabSpec("tab2");
-		noteCompleteTasks.setIndicator("Global tasks");
-		Intent noteCompleteTasksIntent = new Intent(this,
-				GlobalTasksActivity.class);
-		noteCompleteTasks.setContent(noteCompleteTasksIntent);
-		tabHost.addTab(noteCompleteTasks);
+		// TabSpec noteCompleteTasks = tabHost.newTabSpec("tab2");
+		// noteCompleteTasks.setIndicator("Global tasks");
+		// Intent noteCompleteTasksIntent = new Intent(this,
+		// GlobalTasksActivity.class);
+		// noteCompleteTasks.setContent(noteCompleteTasksIntent);
+		// tabHost.addTab(noteCompleteTasks);
 	}
 }

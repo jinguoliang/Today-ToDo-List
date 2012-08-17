@@ -50,6 +50,12 @@ public class TasksByDateAdapter extends TasksAdapter {
 	}
 
 	@Override
+	public void taskChanged(Task oldTask, Task newTask) {
+		tasks = getTasksFromModel(getDate());
+		super.taskChanged(oldTask, newTask);
+	}
+
+	@Override
 	public void taskCreated(Task task) {
 		tasks = getTasksFromModel(getDate());
 		super.taskCreated(task);

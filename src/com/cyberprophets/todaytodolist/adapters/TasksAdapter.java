@@ -64,7 +64,9 @@ public abstract class TasksAdapter extends BaseAdapter implements ModelListener 
 			taskView = (TaskView) convertView;
 			Task task = (Task) getItem(position);
 			taskView.setTask(task);
-			taskView.showNote(getExpandedTasks().get(task.getId()));
+			boolean isExpanded = taskView.showNote(getExpandedTasks().get(
+					task.getId()));
+			getExpandedTasks().put(task.getId(), isExpanded);
 			taskView.fillView();
 		}
 		return taskView;

@@ -7,10 +7,13 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Handler;
 import android.text.InputType;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
-import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnKeyListener;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +21,8 @@ import android.widget.TextView;
 import com.cyberprophets.todaytodolist.R;
 import com.cyberprophets.todaytodolist.adapters.TasksAdapter;
 import com.cyberprophets.todaytodolist.model.Model;
+import com.cyberprophets.todaytodolist.model.Task;
+import com.cyberprophets.todaytodolist.views.TaskView;
 
 /**
  * Абстрактный класс по отображению списка задач
@@ -63,6 +68,7 @@ public abstract class TasksListActivity extends ListActivity {
 		fillData();
 
 		newTaskTitle.setOnKeyListener(new AddNewTaskOnKeyListener());
+		registerForContextMenu(getListView());
 	}
 
 	@Override
@@ -72,9 +78,11 @@ public abstract class TasksListActivity extends ListActivity {
 	};
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.today_activity, menu);
-		return true;
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		getMenuInflater()
+				.inflate(R.menu.tasks_list_activity_context_menu, menu);
 	}
 
 	@Override
@@ -101,6 +109,19 @@ public abstract class TasksListActivity extends ListActivity {
 		fillData();
 	};
 
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.context_menu_delete_task:
+			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+					.getMenuInfo();
+			Task task = ((TaskView) info.targetView).getTask();
+			getModel().deleteTask(task);
+			return true;
+		}
+		return super.onContextItemSelected(item);
+	}
+
 	/**
 	 * Слушатель нажатия клавишии "Ввод" для добавления задачи.
 	 * 
@@ -124,4 +145,5 @@ public abstract class TasksListActivity extends ListActivity {
 			return false;
 		}
 	}
+
 }

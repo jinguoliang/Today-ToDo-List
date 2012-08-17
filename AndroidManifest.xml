@@ -28,7 +28,7 @@
         <activity android:name=".activities.TasksByDateActivity" >
         </activity>
         <activity
-            android:name=".EditTaskActivity"
+            android:name=".activities.EditTaskActivity"
             android:label="@string/edit_task_activity_title" >
         </activity>
     </application>

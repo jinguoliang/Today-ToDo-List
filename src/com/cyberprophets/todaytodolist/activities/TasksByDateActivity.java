@@ -10,15 +10,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.cyberprophets.todaytodolist.R;
-import com.cyberprophets.todaytodolist.adapters.TasksAdapter;
 import com.cyberprophets.todaytodolist.adapters.TasksByDateAdapter;
+import com.cyberprophets.todaytodolist.model.ModelListener;
+import com.cyberprophets.todaytodolist.model.Task;
 
 /**
  * 
  * @author Mironov S.V.
  * @since 01.08.2012
  */
-public class TasksByDateActivity extends TasksListActivity {
+public class TasksByDateActivity extends TasksListActivity implements
+		ModelListener {
 	private ImageButton nextDateButton;
 	private ImageButton previousDateButton;
 	private EditText selectedDateText;
@@ -39,6 +41,7 @@ public class TasksByDateActivity extends TasksListActivity {
 		previousDateButton
 				.setOnClickListener(new PreviousDateButtonOnClickListener());
 		nextDateButton.setOnClickListener(new NextDateButtonOnClickListener());
+		getModel().addModelListener(this);
 	}
 
 	public ImageButton getNextDateButton() {
@@ -55,44 +58,59 @@ public class TasksByDateActivity extends TasksListActivity {
 
 	@Override
 	protected void fillData() {
+		TasksByDateAdapter adapter = null;
 		if (getListAdapter() == null) {
-			TasksAdapter adapter = new TasksByDateAdapter(getModel(), this,
-					getDate().getTime());
+			adapter = new TasksByDateAdapter(getModel(), this, getDate()
+					.getTime());
 			setListAdapter(adapter);
 		}
-		// int doneTasksCount = 0;
-		// for (Task task : adapter.getI) {
-		// if (task.isDone()) {
-		// doneTasksCount++;
-		// }
-		// }
-		//
-		// getTasksListFooter().setText(
-		// getString(R.string.not_complete_tasks) + ": "
-		// + (tasks.size() - doneTasksCount) + "; "
-		// + getString(R.string.complete_tasks) + ": "
-		// + doneTasksCount);
-
+		outputFooterData();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 		String date = simpleDateFormat.format(getDate().getTime());
 		getSelectedDateText().setText(date);
 	}
 
 	private class PreviousDateButtonOnClickListener implements OnClickListener {
-
 		public void onClick(View arg0) {
 			getDate().add(Calendar.DAY_OF_MONTH, -1);
+			fillData();
+		}
+	}
+
+	private class NextDateButtonOnClickListener implements OnClickListener {
+		public void onClick(View arg0) {
+			getDate().add(Calendar.DAY_OF_MONTH, 1);
 			fillData();
 		}
 
 	}
 
-	private class NextDateButtonOnClickListener implements OnClickListener {
-
-		public void onClick(View arg0) {
-			getDate().add(Calendar.DAY_OF_MONTH, 1);
-			fillData();
+	private void outputFooterData() {
+		TasksByDateAdapter adapter = (TasksByDateAdapter) getListAdapter();
+		int doneTasksCount = 0;
+		for (Task task : adapter.getTasks()) {
+			if (task.isDone()) {
+				doneTasksCount++;
+			}
 		}
+
+		getTasksListFooter().setText(
+				getString(R.string.not_complete_tasks) + ": "
+						+ (adapter.getTasks().size() - doneTasksCount) + "; "
+						+ getString(R.string.complete_tasks) + ": "
+						+ doneTasksCount);
+	}
+
+	public void taskCreated(Task task) {
+		outputFooterData();
+	}
+
+	public void taskDeleted(Task task) {
+		outputFooterData();
+	}
+
+	public void taskChanged(Task oldTask, Task newTask) {
+		outputFooterData();
 
 	}
 }

@@ -1,15 +1,18 @@
 package com.cyberprophets.todaytodolist.views;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cyberprophets.todaytodolist.R;
+import com.cyberprophets.todaytodolist.activities.EditTaskActivity;
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.Task;
 
@@ -23,7 +26,7 @@ public class TaskView extends LinearLayout {
 	private final TextView title;
 	private final TextView note;
 	private final CheckBox isDone;
-	private final ImageButton deleteButton;
+	private final ImageView editButton;
 	private Task task;
 	private final Model model;
 	private final View noteLayout;
@@ -38,25 +41,29 @@ public class TaskView extends LinearLayout {
 		title = (TextView) findViewById(R.id.task_title);
 		note = (TextView) findViewById(R.id.task_note);
 		isDone = (CheckBox) view.findViewById(R.id.task_is_done);
-		deleteButton = (ImageButton) view.findViewById(R.id.delete_task_button);
+		editButton = (ImageView) view.findViewById(R.id.edit_task_button);
 		noteLayout = findViewById(R.id.note_layout);
 
 		fillView();
 
 		getIsDone().setOnCheckedChangeListener(
 				new OnCheckedTaskDoneChangeListener());
-		getDeleteButton().setOnClickListener(
-				new DeleteTaskButtonOnClickListener());
-
-		showNote(false);
+		getEditButton().setOnClickListener(new EditTaskButtonOnClickListener());
 	}
 
 	private View getNoteLayout() {
 		return noteLayout;
 	}
 
-	public void showNote(boolean show) {
-		getNoteLayout().setVisibility(show ? VISIBLE : GONE);
+	public boolean showNote(boolean show) {
+		if (getTask().getDescription() == null
+				|| getTask().getDescription().length() == 0) {
+			getNoteLayout().setVisibility(GONE);
+			return false;
+		} else {
+			getNoteLayout().setVisibility(show ? VISIBLE : GONE);
+			return show;
+		}
 	}
 
 	public void fillView() {
@@ -67,7 +74,8 @@ public class TaskView extends LinearLayout {
 		getNote().setText(getTask().getDescription());
 		if (getTask().isDone()) {
 			getIsDone().setChecked(true);
-			getTitle().setTextAppearance(getContext(), R.style.boldText);
+			getTitle().setTextAppearance(getContext(),
+					R.style.strikethroughText);
 			getTitle().setPaintFlags(
 					getTitle().getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 		} else {
@@ -100,8 +108,8 @@ public class TaskView extends LinearLayout {
 		return isDone;
 	}
 
-	public ImageButton getDeleteButton() {
-		return deleteButton;
+	public ImageView getEditButton() {
+		return editButton;
 	}
 
 	/**
@@ -117,7 +125,8 @@ public class TaskView extends LinearLayout {
 				boolean isChecked) {
 			Task task = getTask();
 			if (isChecked) {
-				getTitle().setTextAppearance(getContext(), R.style.boldText);
+				getTitle().setTextAppearance(getContext(),
+						R.style.strikethroughText);
 				getTitle().setPaintFlags(
 						getTitle().getPaintFlags()
 								| Paint.STRIKE_THRU_TEXT_FLAG);
@@ -145,9 +154,11 @@ public class TaskView extends LinearLayout {
 	 * @author Mironov S.V.
 	 * @since 24.07.2012
 	 */
-	private class DeleteTaskButtonOnClickListener implements OnClickListener {
+	private class EditTaskButtonOnClickListener implements OnClickListener {
 		public void onClick(View v) {
-			getModel().deleteTask(getTask());
+			Intent intent = new Intent(getContext(), EditTaskActivity.class);
+			intent.putExtra("id", getTask().getId().toString());
+			((Activity) getContext()).startActivityForResult(intent, 1);
 		}
 	};
 }
