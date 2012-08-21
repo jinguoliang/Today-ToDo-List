@@ -3,21 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <EditText
-        android:id="@+id/add_task"
+    <LinearLayout
+        android:id="@+id/add_elements_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="top"
-        android:inputType="text"
-        android:singleLine="true" />
+        android:gravity="center"
+        android:orientation="horizontal" >
 
-    <ListView
+        <Button
+            android:id="@+id/add_category_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_category" />
+
+        <Button
+            android:id="@+id/add_task_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_task" />
+    </LinearLayout>
+
+    <ExpandableListView
         android:id="@+id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/tasks_list_footer"
-        android:layout_below="@+id/add_task"
-        android:drawSelectorOnTop="false" />
+        android:layout_below="@+id/add_elements_layout"
+        android:drawSelectorOnTop="false"
+        android:indicatorLeft="250dp"
+        android:indicatorRight="300dp" />
 
     <TextView
         android:id="@+id/android:empty"

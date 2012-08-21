@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 
 import com.cyberprophets.todaytodolist.R;
 import com.cyberprophets.todaytodolist.adapters.TasksByDateAdapter;
+import com.cyberprophets.todaytodolist.model.Category;
 import com.cyberprophets.todaytodolist.model.ModelListener;
 import com.cyberprophets.todaytodolist.model.Task;
 
@@ -112,5 +113,14 @@ public class TasksByDateActivity extends TasksListActivity implements
 	public void taskChanged(Task oldTask, Task newTask) {
 		outputFooterData();
 
+	}
+
+	public void categoryCreated(Category category) {
+	}
+
+	public void categoryChanged(Category oldCategory, Category newCategory) {
+	}
+
+	public void categoryDeleted(Category category) {
 	}
 }

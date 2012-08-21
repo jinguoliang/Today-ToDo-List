@@ -1,5 +1,7 @@
 package com.cyberprophets.todaytodolist.model;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -11,15 +13,20 @@ import java.util.UUID;
 public class Category {
 	private UUID id;
 	private String name;
+	private List<Task> tasks;
 
 	public Category() {
-		id = UUID.randomUUID();
-		name = new String();
+		this(UUID.randomUUID(), new String());
+	}
+
+	public Category(String name) {
+		this(UUID.randomUUID(), name);
 	}
 
 	public Category(UUID id, String name) {
 		this.id = id;
 		setName(name);
+		tasks = new LinkedList<Task>();
 	}
 
 	public UUID getId() {
@@ -38,4 +45,11 @@ public class Category {
 		this.name = name;
 	}
 
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
 }

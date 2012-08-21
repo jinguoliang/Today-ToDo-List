@@ -11,4 +11,10 @@ public interface ModelListener {
 	void taskDeleted(Task task);
 
 	void taskChanged(Task oldTask, Task newTask);
+
+	void categoryCreated(Category category);
+
+	void categoryChanged(Category oldCategory, Category newCategory);
+
+	void categoryDeleted(Category category);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 
+import com.cyberprophets.todaytodolist.model.Category;
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.Task;
 
@@ -65,5 +66,16 @@ public class TasksByDateAdapter extends TasksAdapter {
 	public void taskDeleted(Task task) {
 		tasks = getTasksFromModel(getDate());
 		super.taskCreated(task);
+	}
+
+	public void categoryCreated(Category category) {
+
+	}
+
+	public void categoryChanged(Category oldCategory, Category newCategory) {
+
+	}
+
+	public void categoryDeleted(Category category) {
 	}
 }

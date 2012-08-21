@@ -22,5 +22,6 @@
     <string name="edit_task">Edit task</string>
     <string name="add_task">Add task</string>
     <string name="note">Note:</string>
+    <string name="add_category">Add category</string>
 
 </resources>

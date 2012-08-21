@@ -27,7 +27,7 @@ public class DatabaseAdapter implements SourceAdapter {
 	private static final String DATABASE_NAME = "data";
 	private static final String TASKS_TABLE = "tasks";
 	private static final String CATEGORY_TABLE = "category";
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 6;
 
 	private static final String KEY_ID = "id";
 	private static final String KEY_TITLE = "title";
@@ -52,7 +52,7 @@ public class DatabaseAdapter implements SourceAdapter {
 			+ ") references " + CATEGORY_TABLE + " (" + KEY_ID + "));";
 
 	private static final String CREATE_CATEGORY_TABLE = "create table "
-			+ CATEGORY_TABLE + " (" + KEY_ID + "text primary key, " + KEY_NAME
+			+ CATEGORY_TABLE + " (" + KEY_ID + " text primary key, " + KEY_NAME
 			+ " text not null, unique ( " + KEY_NAME + "));";
 
 	public DatabaseAdapter(Context context) {
@@ -229,6 +229,11 @@ public class DatabaseAdapter implements SourceAdapter {
 						null, null, null, null);
 		List<Category> categories = getCategoriesFromCursor(cursor);
 		cursor.close();
+
+		for (Category category : categories) {
+			category.setTasks(getTasksForCategory(category));
+		}
+
 		return categories;
 	}
 
@@ -256,7 +261,7 @@ public class DatabaseAdapter implements SourceAdapter {
 				new String[] { KEY_ID, KEY_TITLE, KEY_DESCRIPTION, KEY_DATE,
 						KEY_DONE, KEY_CATEGORY_ID },
 				KEY_CATEGORY_ID + "=" + "\'" + category.getId().toString()
-						+ "\'", null, null, null, null);
+						+ "\'", null, null, null, KEY_TITLE);
 		List<Task> tasks = getTasksFromCursor(cursor);
 		cursor.close();
 		return tasks;

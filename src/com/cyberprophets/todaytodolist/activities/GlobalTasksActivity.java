@@ -1,35 +1,116 @@
 package com.cyberprophets.todaytodolist.activities;
 
+import java.util.Date;
+
+import android.app.ExpandableListActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.cyberprophets.todaytodolist.R;
 import com.cyberprophets.todaytodolist.adapters.CategoryTasksAdapter;
-import com.cyberprophets.todaytodolist.adapters.TasksAdapter;
+import com.cyberprophets.todaytodolist.model.Category;
+import com.cyberprophets.todaytodolist.model.Model;
+import com.cyberprophets.todaytodolist.model.ModelListener;
+import com.cyberprophets.todaytodolist.model.Task;
 
-public class GlobalTasksActivity extends TasksListActivity {
+/**
+ * 
+ * @author Mironov S.V.
+ * @since 21.08.2012
+ */
+public class GlobalTasksActivity extends ExpandableListActivity implements
+		ModelListener {
+	private Model model;
+	private Button addCategoryButton;
+	private Button addTaskButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.all_tasks_activity_layout);
-		super.init(R.id.add_task, R.id.tasks_list_footer);
+		setContentView(R.layout.global_tasks_activity_layout);
+
+		model = new Model(this);
+		getModel().activate();
+
+		addCategoryButton = (Button) findViewById(R.id.add_category_button);
+		addTaskButton = (Button) findViewById(R.id.add_task_button);
+
+		getAddCategoryButton().setOnClickListener(
+				new AddCategoryButtonOnClickListener());
+		getAddTaskButton().setOnClickListener(
+				new AddTaskButtonOnClickListener());
+		getModel().addModelListener(this);
+	}
+
+	private Model getModel() {
+		return model;
+	}
+
+	private Button getAddCategoryButton() {
+		return addCategoryButton;
+	}
+
+	private Button getAddTaskButton() {
+		return addTaskButton;
+	}
+
+	protected void fillData() {
+		CategoryTasksAdapter adapter = null;
+		if (getExpandableListAdapter() == null) {
+			adapter = new CategoryTasksAdapter(getModel(), this);
+			setListAdapter(adapter);
+		}
 	}
 
 	@Override
-	protected void fillData() {
-		// List<Task> tasks = getModel().getNotCompleteTasks();
-		TasksAdapter adapter = new CategoryTasksAdapter(getModel(), this);
-		setListAdapter(adapter);
-		// int doneTasksCount = 0;
-		// for (Task task : tasks) {
-		// if (task.isDone()) {
-		// doneTasksCount++;
-		// }
-		// }
-		//
-		// getTasksListFooter().setText(
-		// getString(R.string.not_complete_tasks) + ": "
-		// + (tasks.size() - doneTasksCount));
+	protected void onResume() {
+		super.onResume();
+		fillData();
+	};
+
+	public class AddCategoryButtonOnClickListener implements OnClickListener {
+
+		public void onClick(View v) {
+			getModel().createNewCategory("Category 1");
+		}
+	}
+
+	public class AddTaskButtonOnClickListener implements OnClickListener {
+
+		public void onClick(View v) {
+			getModel().createNewTask("Task 1", new Date());
+		}
+	}
+
+	public void taskCreated(Task task) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void taskDeleted(Task task) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void taskChanged(Task oldTask, Task newTask) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void categoryCreated(Category category) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void categoryChanged(Category oldCategory, Category newCategory) {
+		// TODO Auto-generated method stub
+	}
+
+	public void categoryDeleted(Category category) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

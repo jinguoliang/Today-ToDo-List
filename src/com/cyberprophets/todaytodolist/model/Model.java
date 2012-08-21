@@ -88,6 +88,28 @@ public class Model {
 		return getSourceAdapter().getAllTasks();
 	}
 
+	public void createNewCategory(String name) {
+		Category newCategory = new Category(name);
+		saveCategory(newCategory);
+	}
+
+	public void saveCategory(Category category) {
+		Category oldCategory = getCategory(category.getId());
+		getSourceAdapter().saveCategory(category);
+
+		for (ModelListener listener : getListeners()) {
+			listener.categoryChanged(oldCategory, category);
+		}
+	}
+
+	public Category getCategory(UUID id) {
+		return getSourceAdapter().getCategory(id);
+	}
+
+	public List<Category> getAllCategories() {
+		return getSourceAdapter().getAllCategories();
+	}
+
 	private Context getContext() {
 		return context;
 	}
