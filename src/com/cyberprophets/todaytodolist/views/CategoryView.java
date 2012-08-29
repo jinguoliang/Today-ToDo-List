@@ -6,8 +6,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cyberprophets.todaytodolist.R;
-import com.cyberprophets.todaytodolist.model.Category;
 import com.cyberprophets.todaytodolist.model.Model;
+import com.cyberprophets.todaytodolist.model.task.Category;
 
 public class CategoryView extends LinearLayout {
 	private final TextView nameTextView;

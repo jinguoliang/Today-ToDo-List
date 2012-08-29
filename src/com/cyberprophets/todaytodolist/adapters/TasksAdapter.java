@@ -11,7 +11,7 @@ import android.widget.BaseAdapter;
 
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.ModelListener;
-import com.cyberprophets.todaytodolist.model.Task;
+import com.cyberprophets.todaytodolist.model.task.Task;
 import com.cyberprophets.todaytodolist.views.TaskView;
 
 /**

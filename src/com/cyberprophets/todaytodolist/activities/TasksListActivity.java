@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.cyberprophets.todaytodolist.R;
 import com.cyberprophets.todaytodolist.adapters.TasksAdapter;
 import com.cyberprophets.todaytodolist.model.Model;
-import com.cyberprophets.todaytodolist.model.Task;
+import com.cyberprophets.todaytodolist.model.task.Task;
 import com.cyberprophets.todaytodolist.views.TaskView;
 
 /**

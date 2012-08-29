@@ -1,8 +1,9 @@
-package com.cyberprophets.todaytodolist.model;
+package com.cyberprophets.todaytodolist.model.task;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+
 
 /**
  * Класс, поисывающий категорию задач

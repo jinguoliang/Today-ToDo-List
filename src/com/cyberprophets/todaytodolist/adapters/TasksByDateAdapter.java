@@ -5,9 +5,9 @@ import java.util.List;
 
 import android.app.Activity;
 
-import com.cyberprophets.todaytodolist.model.Category;
 import com.cyberprophets.todaytodolist.model.Model;
-import com.cyberprophets.todaytodolist.model.Task;
+import com.cyberprophets.todaytodolist.model.task.Category;
+import com.cyberprophets.todaytodolist.model.task.Task;
 
 /**
  * Адаптер для отображения задач по конкретной дате в ListView

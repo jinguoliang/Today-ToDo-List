@@ -1,5 +1,8 @@
 package com.cyberprophets.todaytodolist.model;
 
+import com.cyberprophets.todaytodolist.model.task.Category;
+import com.cyberprophets.todaytodolist.model.task.Task;
+
 /**
  * 
  * @author Mironov S.V.

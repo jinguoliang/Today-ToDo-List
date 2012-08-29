@@ -11,9 +11,9 @@ import android.widget.ImageButton;
 
 import com.cyberprophets.todaytodolist.R;
 import com.cyberprophets.todaytodolist.adapters.TasksByDateAdapter;
-import com.cyberprophets.todaytodolist.model.Category;
 import com.cyberprophets.todaytodolist.model.ModelListener;
-import com.cyberprophets.todaytodolist.model.Task;
+import com.cyberprophets.todaytodolist.model.task.Category;
+import com.cyberprophets.todaytodolist.model.task.Task;
 
 /**
  * 

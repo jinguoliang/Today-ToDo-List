@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.cyberprophets.todaytodolist.model.task.Category;
+import com.cyberprophets.todaytodolist.model.task.Task;
+
 /**
  * 
  * @author Mironov S.V.

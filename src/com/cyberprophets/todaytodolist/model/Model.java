@@ -8,6 +8,8 @@ import java.util.UUID;
 import android.content.Context;
 
 import com.cyberprophets.todaytodolist.model.db.DatabaseAdapter;
+import com.cyberprophets.todaytodolist.model.task.Category;
+import com.cyberprophets.todaytodolist.model.task.Task;
 
 /**
  * 

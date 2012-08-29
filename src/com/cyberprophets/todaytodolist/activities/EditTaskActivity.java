@@ -18,7 +18,7 @@ import com.cyberprophets.todaytodolist.R.id;
 import com.cyberprophets.todaytodolist.R.layout;
 import com.cyberprophets.todaytodolist.R.string;
 import com.cyberprophets.todaytodolist.model.Model;
-import com.cyberprophets.todaytodolist.model.Task;
+import com.cyberprophets.todaytodolist.model.task.Task;
 
 /**
  * Activity по редактированию задачи

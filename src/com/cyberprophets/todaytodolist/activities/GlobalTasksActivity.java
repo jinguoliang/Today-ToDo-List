@@ -10,10 +10,10 @@ import android.widget.Button;
 
 import com.cyberprophets.todaytodolist.R;
 import com.cyberprophets.todaytodolist.adapters.CategoryTasksAdapter;
-import com.cyberprophets.todaytodolist.model.Category;
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.ModelListener;
-import com.cyberprophets.todaytodolist.model.Task;
+import com.cyberprophets.todaytodolist.model.task.Category;
+import com.cyberprophets.todaytodolist.model.task.Task;
 
 /**
  * 

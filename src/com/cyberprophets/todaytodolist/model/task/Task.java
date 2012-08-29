@@ -1,4 +1,4 @@
-package com.cyberprophets.todaytodolist.model;
+package com.cyberprophets.todaytodolist.model.task;
 
 import java.util.Date;
 import java.util.UUID;
@@ -15,7 +15,6 @@ public class Task {
 	private String description;
 	private Date date;
 	private boolean done;
-	private Category category;
 
 	public Task() {
 		id = UUID.randomUUID();
@@ -35,12 +34,6 @@ public class Task {
 		setDescription(description);
 		setDate(date);
 		setDone(done);
-	}
-
-	public Task(UUID id, String title, String description, Date date,
-			boolean done, Category category) {
-		this(id, title, description, date, done);
-		setCategory(category);
 	}
 
 	public UUID getId() {
@@ -81,14 +74,6 @@ public class Task {
 
 	public void setDone(boolean done) {
 		this.done = done;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 
 	@Override
