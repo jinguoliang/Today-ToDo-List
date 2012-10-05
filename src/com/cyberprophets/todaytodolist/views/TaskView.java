@@ -12,12 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cyberprophets.todaytodolist.R;
-import com.cyberprophets.todaytodolist.activities.EditTaskActivity;
+import com.cyberprophets.todaytodolist.activities.EditDailyTaskActivity;
 import com.cyberprophets.todaytodolist.model.Model;
-import com.cyberprophets.todaytodolist.model.task.Task;
+import com.cyberprophets.todaytodolist.model.dataobjects.tasks.Task;
 
 /**
- * Класс, отвечающий за отображение задачи
+ * пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
  * 
  * @author Mironov S.V.
  * @since 15.08.2012
@@ -27,8 +27,10 @@ public class TaskView extends LinearLayout {
 	private final TextView note;
 	private final CheckBox isDone;
 	private final ImageView editButton;
+	private final ImageView deleteButton;
 	private Task task;
 	private final Model model;
+	private final View taskActionsLayout;
 	private final View noteLayout;
 
 	public TaskView(Context context, Task task, Model model) {
@@ -42,6 +44,8 @@ public class TaskView extends LinearLayout {
 		note = (TextView) findViewById(R.id.task_note);
 		isDone = (CheckBox) view.findViewById(R.id.task_is_done);
 		editButton = (ImageView) view.findViewById(R.id.edit_task_button);
+		deleteButton = (ImageView) view.findViewById(R.id.delete_task_button);
+		taskActionsLayout = findViewById(R.id.task_actions_layout);
 		noteLayout = findViewById(R.id.note_layout);
 
 		fillView();
@@ -49,21 +53,33 @@ public class TaskView extends LinearLayout {
 		getIsDone().setOnCheckedChangeListener(
 				new OnCheckedTaskDoneChangeListener());
 		getEditButton().setOnClickListener(new EditTaskButtonOnClickListener());
+		getDeleteButton().setOnClickListener(
+				new DeleteTaskButtonOnClickListener());
+	}
+
+	private View getTaskActionsLayout() {
+		return taskActionsLayout;
 	}
 
 	private View getNoteLayout() {
 		return noteLayout;
 	}
 
-	public boolean showNote(boolean show) {
+	public boolean expandTask(boolean show) {
+
+		// TODO РїСЂРѕРІРµСЂРёС‚СЊ РјРµС‚РѕРґ РєРѕРіРґР° РґРѕР±Р°РІР»СЏСЋС‚ РѕРїРёСЃР°РЅРёРµ РґР»СЏ Р·Р°РґР°С‡Рё РїРѕСЃР»Рµ
+		// СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ
+		getTaskActionsLayout().setVisibility(show ? VISIBLE : GONE);
+
 		if (getTask().getDescription() == null
 				|| getTask().getDescription().length() == 0) {
 			getNoteLayout().setVisibility(GONE);
-			return false;
+			// return false;
 		} else {
 			getNoteLayout().setVisibility(show ? VISIBLE : GONE);
-			return show;
+			// return show;
 		}
+		return show;
 	}
 
 	public void fillView() {
@@ -72,7 +88,7 @@ public class TaskView extends LinearLayout {
 		}
 		getTitle().setText(getTask().getTitle());
 		getNote().setText(getTask().getDescription());
-		if (getTask().isDone()) {
+		if (getTask().isCompleted()) {
 			getIsDone().setChecked(true);
 			getTitle().setTextAppearance(getContext(),
 					R.style.strikethroughText);
@@ -112,8 +128,12 @@ public class TaskView extends LinearLayout {
 		return editButton;
 	}
 
+	private ImageView getDeleteButton() {
+		return deleteButton;
+	}
+
 	/**
-	 * Слушатель нажатия кнопки завершения задачи
+	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	 * 
 	 * @author Mironov S.V.
 	 * @since 24.07.2012
@@ -130,7 +150,7 @@ public class TaskView extends LinearLayout {
 				getTitle().setPaintFlags(
 						getTitle().getPaintFlags()
 								| Paint.STRIKE_THRU_TEXT_FLAG);
-				if (task.isDone()) {
+				if (task.isCompleted()) {
 					return;
 				}
 
@@ -139,26 +159,34 @@ public class TaskView extends LinearLayout {
 				getTitle().setPaintFlags(
 						getTitle().getPaintFlags()
 								^ Paint.STRIKE_THRU_TEXT_FLAG);
-				if (!task.isDone()) {
+				if (!task.isCompleted()) {
 					return;
 				}
 			}
-			task.setDone(isChecked);
+			task.setCompleted(isChecked);
 			getModel().saveTask(task);
 		}
 	};
 
 	/**
-	 * Слушатель нажатия кнопки удаления задачи
+	 * 
 	 * 
 	 * @author Mironov S.V.
 	 * @since 24.07.2012
 	 */
 	private class EditTaskButtonOnClickListener implements OnClickListener {
 		public void onClick(View v) {
-			Intent intent = new Intent(getContext(), EditTaskActivity.class);
+			Intent intent = new Intent(getContext(), EditDailyTaskActivity.class);
 			intent.putExtra("id", getTask().getId().toString());
 			((Activity) getContext()).startActivityForResult(intent, 1);
 		}
 	};
+
+	private class DeleteTaskButtonOnClickListener implements OnClickListener {
+
+		public void onClick(View v) {
+			getModel().deleteTask(getTask());
+		}
+
+	}
 }

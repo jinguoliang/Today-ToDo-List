@@ -25,10 +25,10 @@
         </activity>
         <activity android:name=".activities.GlobalTasksActivity" >
         </activity>
-        <activity android:name=".activities.TasksByDateActivity" >
+        <activity android:name=".activities.DailyTasksActivity" >
         </activity>
         <activity
-            android:name=".activities.EditTaskActivity"
+            android:name=".activities.EditDailyTaskActivity"
             android:label="@string/edit_task_activity_title" >
         </activity>
     </application>

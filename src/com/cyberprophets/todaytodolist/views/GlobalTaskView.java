@@ -7,30 +7,30 @@ import android.widget.TextView;
 
 import com.cyberprophets.todaytodolist.R;
 import com.cyberprophets.todaytodolist.model.Model;
-import com.cyberprophets.todaytodolist.model.task.Category;
+import com.cyberprophets.todaytodolist.model.dataobjects.tasks.GlobalTask;
 
-public class CategoryView extends LinearLayout {
+public class GlobalTaskView extends LinearLayout {
 	private final TextView nameTextView;
-	private Category category;
+	private GlobalTask task;
 	private final Model model;
 
-	public CategoryView(Context context, Category category, Model model) {
+	public GlobalTaskView(Context context, GlobalTask category, Model model) {
 		super(context);
 		View view = inflate(getContext(), R.layout.category_view, null);
 		addView(view);
 
 		this.model = model;
-		this.category = category;
+		this.task = category;
 
 		nameTextView = (TextView) findViewById(R.id.category_name);
 	}
 
-	private Category getCategory() {
-		return category;
+	private GlobalTask getTask() {
+		return task;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setTask(GlobalTask category) {
+		this.task = category;
 	}
 
 	private TextView getNameTextView() {
@@ -42,9 +42,9 @@ public class CategoryView extends LinearLayout {
 	}
 
 	public void fillView() {
-		if (getCategory() == null) {
+		if (getTask() == null) {
 			return;
 		}
-		getNameTextView().setText(getCategory().getName());
+		getNameTextView().setText(getTask().getTitle());
 	}
 }

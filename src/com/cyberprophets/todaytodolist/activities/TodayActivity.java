@@ -22,16 +22,17 @@ public class TodayActivity extends TabActivity {
 		TabHost tabHost = getTabHost();
 
 		TabSpec tasksByDate = tabHost.newTabSpec("tab1");
-		tasksByDate.setIndicator("Tasks by date");
-		Intent tasksByDateIntent = new Intent(this, TasksByDateActivity.class);
+		tasksByDate.setIndicator("Daily tasks");
+		Intent tasksByDateIntent = new Intent(this, DailyTasksActivity.class);
 		tasksByDate.setContent(tasksByDateIntent);
 		tabHost.addTab(tasksByDate);
 
-		TabSpec globalTasks = tabHost.newTabSpec("tab2");
-		globalTasks.setIndicator("Global tasks");
-		Intent globalTasksIntent = new Intent(this, GlobalTasksActivity.class);
-		globalTasks.setContent(globalTasksIntent);
-		tabHost.addTab(globalTasks);
+		// TabSpec globalTasks = tabHost.newTabSpec("tab2");
+		// globalTasks.setIndicator("Global tasks");
+		// Intent globalTasksIntent = new Intent(this,
+		// GlobalTasksActivity.class);
+		// globalTasks.setContent(globalTasksIntent);
+		// tabHost.addTab(globalTasks);
 
 	}
 }

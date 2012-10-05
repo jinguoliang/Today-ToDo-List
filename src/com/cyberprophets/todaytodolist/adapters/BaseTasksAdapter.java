@@ -11,22 +11,24 @@ import android.widget.BaseAdapter;
 
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.ModelListener;
-import com.cyberprophets.todaytodolist.model.task.Task;
+import com.cyberprophets.todaytodolist.model.dataobjects.tasks.Task;
 import com.cyberprophets.todaytodolist.views.TaskView;
 
 /**
- * Абстрактный адаптер для отображения задач в ListView
+ * РљР»Р°СЃСЃ Р°РґР°РїС‚РµСЂР° РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РїСЂРѕСЃС‚С‹С… Р·Р°РґР°С‡ РІ РІРёРґРµ СЃРїРёСЃРєР°
  * 
  * @author Mironov S.V.
  * @since 16.08.2012
  */
-public abstract class TasksAdapter extends BaseAdapter implements ModelListener {
+public abstract class BaseTasksAdapter extends BaseAdapter implements
+		ModelListener {
 	private static boolean DEFAULT_EXPANDED_TASK_STATE = false;
 	private final Activity context;
 	private final Model model;
 	private final Map<UUID, Boolean> expandedTasks = new HashMap<UUID, Boolean>();
+	private Task expandedTask;
 
-	public TasksAdapter(Model model, Activity context) {
+	public BaseTasksAdapter(Model model, Activity context) {
 		this.context = context;
 		this.model = model;
 		getModel().addModelListener(this);
@@ -64,7 +66,7 @@ public abstract class TasksAdapter extends BaseAdapter implements ModelListener 
 			taskView = (TaskView) convertView;
 			Task task = (Task) getItem(position);
 			taskView.setTask(task);
-			boolean isExpanded = taskView.showNote(getExpandedTasks().get(
+			boolean isExpanded = taskView.expandTask(getExpandedTasks().get(
 					task.getId()));
 			getExpandedTasks().put(task.getId(), isExpanded);
 			taskView.fillView();
@@ -88,6 +90,11 @@ public abstract class TasksAdapter extends BaseAdapter implements ModelListener 
 
 	public void toogleTask(int position) {
 		Task task = (Task) getItem(position);
+
+		if (expandedTask != null && !expandedTask.equals(task)) {
+			getExpandedTasks().put(expandedTask.getId(), false);
+		}
+		expandedTask = task;
 		getExpandedTasks().put(task.getId(),
 				!getExpandedTasks().get(task.getId()));
 		notifyDataSetChanged();

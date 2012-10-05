@@ -1,7 +1,6 @@
 package com.cyberprophets.todaytodolist.activities;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.UUID;
 
 import android.app.Activity;
@@ -14,19 +13,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cyberprophets.todaytodolist.R;
-import com.cyberprophets.todaytodolist.R.id;
-import com.cyberprophets.todaytodolist.R.layout;
-import com.cyberprophets.todaytodolist.R.string;
 import com.cyberprophets.todaytodolist.model.Model;
-import com.cyberprophets.todaytodolist.model.task.Task;
+import com.cyberprophets.todaytodolist.model.dataobjects.Date;
+import com.cyberprophets.todaytodolist.model.dataobjects.tasks.DailyTask;
 
 /**
- * Activity по редактированию задачи
+ * 
  * 
  * @author Mironov
  * @since 23.07.2012
  */
-public class EditTaskActivity extends Activity {
+public class EditDailyTaskActivity extends Activity {
 	private static final String KEY_TASKID = "id";
 
 	private static final int RESULT_OK = 0;
@@ -44,7 +41,7 @@ public class EditTaskActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.edit_task_activity);
+		setContentView(R.layout.edit_daily_task_activity);
 
 		taskTitle = (EditText) findViewById(R.id.title);
 		taskDescription = (EditText) findViewById(R.id.description);
@@ -76,11 +73,11 @@ public class EditTaskActivity extends Activity {
 
 	private void fillActivity() {
 		if (editingTaskId != null) {
-			Task editingTask = getModel().getTask(editingTaskId);
+			DailyTask editingTask = getModel().getDailyTask(editingTaskId);
 			getTaskTitle().setText(editingTask.getTitle());
 			getTaskDescription().setText(editingTask.getDescription());
 			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(editingTask.getDate());
+			calendar.setTime(editingTask.getDate().toDate());
 			getTaskDate().updateDate(calendar.get(Calendar.YEAR),
 					calendar.get(Calendar.MONTH),
 					calendar.get(Calendar.DAY_OF_MONTH));
@@ -127,9 +124,9 @@ public class EditTaskActivity extends Activity {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(getTaskDate().getYear(), getTaskDate().getMonth(),
 				getTaskDate().getDayOfMonth());
-		Date date = calendar.getTime();
+		Date date = Date.valueOf(calendar.getTime());
 
-		Task editingTask = getModel().getTask(getEditingTaskId());
+		DailyTask editingTask = getModel().getDailyTask(getEditingTaskId());
 		if (editingTask != null) {
 			editingTask.setTitle(title);
 			editingTask.setDescription(description);
@@ -153,11 +150,11 @@ public class EditTaskActivity extends Activity {
 
 			switch (result) {
 			case RESULT_OK:
-				Toast.makeText(EditTaskActivity.this,
+				Toast.makeText(EditDailyTaskActivity.this,
 						R.string.task_saved_message, Toast.LENGTH_SHORT).show();
 				break;
 			case RESULT_ERROR:
-				Toast.makeText(EditTaskActivity.this,
+				Toast.makeText(EditDailyTaskActivity.this,
 						R.string.task_not_saved_message, Toast.LENGTH_SHORT)
 						.show();
 				break;
