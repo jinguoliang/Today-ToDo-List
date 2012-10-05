@@ -27,7 +27,6 @@ import com.cyberprophets.todaytodolist.adapters.DailyTasksAdapter;
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.ModelListener;
 import com.cyberprophets.todaytodolist.model.dataobjects.Date;
-import com.cyberprophets.todaytodolist.model.dataobjects.tasks.DailyTask;
 import com.cyberprophets.todaytodolist.model.dataobjects.tasks.Task;
 import com.cyberprophets.todaytodolist.views.TaskView;
 
@@ -159,8 +158,7 @@ public class DailyTasksActivity extends ListActivity implements ModelListener {
 				if (editText.getText().toString().length() == 0) {
 					return false;
 				}
-				DailyTask task = getModel().createNewDailyTask(
-						editText.getText().toString(),
+				getModel().createNewDailyTask(editText.getText().toString(),
 						Date.valueOf(getCalendar().getTime()));
 				editText.getText().clear();
 
@@ -183,12 +181,11 @@ public class DailyTasksActivity extends ListActivity implements ModelListener {
 	}
 
 	protected void fillData() {
-		DailyTasksAdapter adapter = null;
-		// if (getListAdapter() == null) {
-		adapter = new DailyTasksAdapter(getModel(), this,
-				Date.valueOf(getCalendar().getTime()));
-		setListAdapter(adapter);
-		// }
+		if (getListAdapter() == null) {
+			setListAdapter(new DailyTasksAdapter(getModel(), this, null));
+		}
+		DailyTasksAdapter adapter = (DailyTasksAdapter) getListAdapter();
+		adapter.setDate(Date.valueOf(getCalendar().getTime()));
 		outputFooterData();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
 		String date = simpleDateFormat.format(getCalendar().getTime());

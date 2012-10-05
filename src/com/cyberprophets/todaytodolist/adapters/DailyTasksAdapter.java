@@ -22,8 +22,6 @@ public class DailyTasksAdapter extends BaseTasksAdapter {
 	public DailyTasksAdapter(Model model, Activity context, Date date) {
 		super(model, context);
 		setDate(date);
-		tasks = getTasksFromModel(getDate());
-		init();
 	}
 
 	public int getCount() {
@@ -48,6 +46,9 @@ public class DailyTasksAdapter extends BaseTasksAdapter {
 
 	public void setDate(Date date) {
 		this.date = date;
+		tasks = getTasksFromModel(date);
+		init();
+		notifyDataSetChanged();
 	}
 
 	@Override

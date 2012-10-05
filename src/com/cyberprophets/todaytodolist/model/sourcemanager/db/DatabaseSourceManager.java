@@ -1,5 +1,6 @@
 package com.cyberprophets.todaytodolist.model.sourcemanager.db;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -76,6 +77,9 @@ public class DatabaseSourceManager implements SourceManager {
 	}
 
 	public List<DailyTask> getDailyTasks(Date date) {
+		if (date == null) {
+			return new LinkedList<DailyTask>();
+		}
 		return getDailyTasksDao().getTasksByDate(date);
 	}
 

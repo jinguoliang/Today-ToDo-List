@@ -35,6 +35,8 @@ public abstract class BaseTasksAdapter extends BaseAdapter implements
 	}
 
 	protected void init() {
+		expandedTask = null;
+		expandedTasks.clear();
 		for (int i = 0; i < getCount(); i++) {
 			expandedTasks.put(((Task) getItem(i)).getId(),
 					DEFAULT_EXPANDED_TASK_STATE);
