@@ -15,7 +15,7 @@
     <string name="delete_task">Delete task</string>
     <string name="edit_task_activity_title">Edit Task</string>
     <string name="complete_tasks">"Complete tasks"</string>
-    <string name="not_complete_tasks">"Not complete tasks"</string>
+    <string name="active_tasks">"Active tasks"</string>
     <string name="previous_date">Previous date</string>
     <string name="next_date">Next date</string>
     <string name="today_to_do_list">Today To Do List</string>

@@ -67,6 +67,7 @@ public final class R {
         public static final int today_activity_context_menu=0x7f070002;
     }
     public static final class string {
+        public static final int active_tasks=0x7f05000f;
         public static final int add_category=0x7f050016;
         public static final int add_task=0x7f050014;
         public static final int app_name=0x7f050000;
@@ -81,7 +82,6 @@ public final class R {
         public static final int menu_delete=0x7f050005;
         public static final int menu_settings=0x7f050002;
         public static final int next_date=0x7f050011;
-        public static final int not_complete_tasks=0x7f05000f;
         public static final int note=0x7f050015;
         public static final int previous_date=0x7f050010;
         public static final int task_list_empty=0x7f050004;

@@ -217,7 +217,7 @@ public class DailyTasksActivity extends ListActivity implements ModelListener {
 		}
 
 		getTasksListFooter().setText(
-				getString(R.string.not_complete_tasks) + ": "
+				getString(R.string.active_tasks) + ": "
 						+ (adapter.getTasks().size() - doneTasksCount) + "; "
 						+ getString(R.string.complete_tasks) + ": "
 						+ doneTasksCount);
