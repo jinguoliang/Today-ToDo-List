@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.cyberprophets.todaytodolist.R;
 import com.cyberprophets.todaytodolist.activities.EditDailyTaskActivity;
+import com.cyberprophets.todaytodolist.animation.ActivitySwitcher;
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.dataobjects.tasks.Task;
 
@@ -176,9 +178,25 @@ public class TaskView extends LinearLayout {
 	 */
 	private class EditTaskButtonOnClickListener implements OnClickListener {
 		public void onClick(View v) {
-			Intent intent = new Intent(getContext(), EditDailyTaskActivity.class);
+			final Intent intent = new Intent(getContext(),
+					EditDailyTaskActivity.class);
 			intent.putExtra("id", getTask().getId().toString());
-			((Activity) getContext()).startActivityForResult(intent, 1);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+			final Activity contextActivity = (Activity) getContext();
+
+			WindowManager windowManager = contextActivity.getWindowManager();
+			ActivitySwitcher.animationOut(
+					contextActivity.findViewById(R.id.container),
+					windowManager,
+					new ActivitySwitcher.AnimationFinishedListener() {
+						public void onAnimationFinished() {
+							contextActivity.startActivityForResult(intent, 1);
+						}
+					});
+
+			// ((Activity) getContext()).overridePendingTransition(
+			// R.anim.rotate_in, R.anim.rotate_in);
 		}
 	};
 

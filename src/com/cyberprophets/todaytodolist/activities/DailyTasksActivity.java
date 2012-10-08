@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.cyberprophets.todaytodolist.R;
 import com.cyberprophets.todaytodolist.adapters.BaseTasksAdapter;
 import com.cyberprophets.todaytodolist.adapters.DailyTasksAdapter;
+import com.cyberprophets.todaytodolist.animation.ActivitySwitcher;
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.ModelListener;
 import com.cyberprophets.todaytodolist.model.dataobjects.Date;
@@ -127,6 +128,8 @@ public class DailyTasksActivity extends ListActivity implements ModelListener {
 
 	@Override
 	protected void onResume() {
+		ActivitySwitcher.animationIn(findViewById(R.id.container),
+				getWindowManager());
 		super.onResume();
 		fillData();
 	};
@@ -236,6 +239,6 @@ public class DailyTasksActivity extends ListActivity implements ModelListener {
 	}
 
 	public void taskSaved(Task newTask) {
-		// TODO Auto-generated method stub
+		outputFooterData();
 	}
 }

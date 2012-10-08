@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cyberprophets.todaytodolist.R;
+import com.cyberprophets.todaytodolist.animation.ActivitySwitcher;
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.dataobjects.Date;
 import com.cyberprophets.todaytodolist.model.dataobjects.tasks.DailyTask;
@@ -65,6 +66,8 @@ public class EditDailyTaskActivity extends Activity {
 
 	@Override
 	protected void onResume() {
+		ActivitySwitcher.animationIn(findViewById(R.id.container),
+				getWindowManager());
 		super.onResume();
 		getModel().activate();
 		getTaskIdFromIntent();
@@ -76,11 +79,9 @@ public class EditDailyTaskActivity extends Activity {
 			DailyTask editingTask = getModel().getDailyTask(editingTaskId);
 			getTaskTitle().setText(editingTask.getTitle());
 			getTaskDescription().setText(editingTask.getDescription());
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(editingTask.getDate().toDate());
-			getTaskDate().updateDate(calendar.get(Calendar.YEAR),
-					calendar.get(Calendar.MONTH),
-					calendar.get(Calendar.DAY_OF_MONTH));
+			Date taskDate = editingTask.getDate();
+			getTaskDate().updateDate(taskDate.getYear(), taskDate.getMonth(),
+					taskDate.getDay());
 		}
 	}
 
@@ -139,7 +140,7 @@ public class EditDailyTaskActivity extends Activity {
 
 	/**
 	 * 
-	 * @author Mironov
+	 * @author Mironov S.V.
 	 * @since 24.07.2012
 	 */
 	private class ConfirmButtonOnClickListener implements OnClickListener {
@@ -160,6 +161,12 @@ public class EditDailyTaskActivity extends Activity {
 				break;
 			}
 
+			ActivitySwitcher.animationOut(findViewById(R.id.container),
+					getWindowManager(),
+					new ActivitySwitcher.AnimationFinishedListener() {
+						public void onAnimationFinished() {
+						}
+					});
 			finish();
 		}
 

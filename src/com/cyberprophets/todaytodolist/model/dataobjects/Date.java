@@ -2,6 +2,7 @@ package com.cyberprophets.todaytodolist.model.dataobjects;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * 
@@ -10,30 +11,34 @@ import java.text.SimpleDateFormat;
  */
 public final class Date {
 	public static String DATE_FORMAT = "yyyy-MM-dd";
-	private final java.util.Date date;
+	private final Calendar calendar = Calendar.getInstance();
 
 	public Date() {
-		date = new java.util.Date();
+		calendar.setTime(new java.util.Date());
 	}
 
 	private Date(java.util.Date date) {
-		this.date = date;
+		calendar.setTime(date);
 	}
 
 	private java.util.Date getDate() {
-		return date;
+		return calendar.getTime();
+	}
+
+	private Calendar getCalendar() {
+		return calendar;
 	}
 
 	public int getDay() {
-		return date.getDay();
+		return getCalendar().get(Calendar.DAY_OF_MONTH);
 	}
 
 	public int getMonth() {
-		return getDate().getMonth();
+		return getCalendar().get(Calendar.MONTH);
 	}
 
 	public int getYear() {
-		return getDate().getYear();
+		return getCalendar().get(Calendar.YEAR);
 	}
 
 	@Override
@@ -55,8 +60,8 @@ public final class Date {
 			return false;
 		}
 		Date other = (Date) obj;
-		if (date == null) {
-			if (other.date != null) {
+		if (getCalendar() == null) {
+			if (other.getCalendar() != null) {
 				return false;
 			}
 		} else if (getDay() != other.getDay() || getMonth() != other.getMonth()
