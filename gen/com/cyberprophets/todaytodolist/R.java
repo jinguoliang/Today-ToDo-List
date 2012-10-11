@@ -10,18 +10,22 @@ package com.cyberprophets.todaytodolist;
 public final class R {
     public static final class anim {
         public static final int fade=0x7f040000;
-        public static final int hold=0x7f040001;
-        public static final int hyperspace_in=0x7f040002;
-        public static final int hyperspace_jump=0x7f040003;
-        public static final int hyperspace_out=0x7f040004;
-        public static final int push_left_in=0x7f040005;
-        public static final int push_left_out=0x7f040006;
-        public static final int push_up_in=0x7f040007;
-        public static final int push_up_out=0x7f040008;
-        public static final int rotate=0x7f040009;
-        public static final int rotate_in=0x7f04000a;
-        public static final int zoom_enter=0x7f04000b;
-        public static final int zoom_exit=0x7f04000c;
+        public static final int go_next_in=0x7f040001;
+        public static final int go_next_out=0x7f040002;
+        public static final int go_prev_in=0x7f040003;
+        public static final int go_prev_out=0x7f040004;
+        public static final int hold=0x7f040005;
+        public static final int hyperspace_in=0x7f040006;
+        public static final int hyperspace_jump=0x7f040007;
+        public static final int hyperspace_out=0x7f040008;
+        public static final int push_left_in=0x7f040009;
+        public static final int push_left_out=0x7f04000a;
+        public static final int push_up_in=0x7f04000b;
+        public static final int push_up_out=0x7f04000c;
+        public static final int rotate=0x7f04000d;
+        public static final int rotate_in=0x7f04000e;
+        public static final int zoom_enter=0x7f04000f;
+        public static final int zoom_exit=0x7f040010;
     }
     public static final class attr {
     }
@@ -71,7 +75,7 @@ public final class R {
     public static final class layout {
         public static final int all_tasks_activity_layout=0x7f030000;
         public static final int category_view=0x7f030001;
-        public static final int daily_tasks_activity_layout=0x7f030002;
+        public static final int daily_tasks_view_layout=0x7f030002;
         public static final int edit_daily_task_activity=0x7f030003;
         public static final int global_tasks_activity_layout=0x7f030004;
         public static final int task_view=0x7f030005;
