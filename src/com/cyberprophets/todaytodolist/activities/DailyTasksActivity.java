@@ -40,13 +40,18 @@ public class DailyTasksActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		ActivitySwitcher.animationIn(currentTasksView, getWindowManager());
 		currentTasksView.fillData();
-
 	};
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		ActivitySwitcher.animationOut(currentTasksView, getWindowManager());
+	}
+
+	@Override
+	public void startActivityForResult(Intent intent, int requestCode) {
+		// ActivitySwitcher.animationOut(currentTasksView, getWindowManager());
+		super.startActivityForResult(intent, requestCode);
 	}
 
 	private Date getNextDate(Date date) {

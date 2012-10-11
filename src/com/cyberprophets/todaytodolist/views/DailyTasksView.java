@@ -68,7 +68,7 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 		getModel().activate();
 		calendar = Calendar.getInstance();
 		if (date == null) {
-			setDate(new java.util.Date());
+			date = new java.util.Date();
 		}
 		setDate(date);
 
@@ -94,7 +94,7 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 
 	public void setDate(java.util.Date date) {
 		getCalendar().setTime(date);
-		// fillData();
+		fillData();
 	}
 
 	public java.util.Date getDate() {
@@ -164,11 +164,13 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 	}
 
 	public void taskCreated(Task task) {
+		// fillData();
 		outputFooterData();
 		switchTaskListVisibility();
 	}
 
 	public void taskDeleted(Task task) {
+		// fillData();
 		outputFooterData();
 		switchTaskListVisibility();
 	}

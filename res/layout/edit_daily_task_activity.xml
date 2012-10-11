@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:padding="@dimen/padding_medium"
+            android:padding="@dimen/padding_small"
             android:text="@string/title"
             android:textStyle="bold|italic" />
 
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:padding="@dimen/padding_medium"
+            android:padding="@dimen/padding_small"
             android:text="@string/note"
             android:textStyle="bold|italic" />
 
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:padding="@dimen/padding_medium"
+            android:padding="@dimen/padding_small"
             android:text="@string/date"
             android:textStyle="bold|italic" />
 
