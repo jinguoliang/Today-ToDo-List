@@ -4,13 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.app.Activity;
-import android.os.Handler;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -33,7 +35,6 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 	private static final String DATE_FORMAT = "dd.MM.yyyy";
 	private final Model model;
 	private final Calendar calendar;
-	private final Handler uiHandler = new Handler();
 
 	private final ListView tasksListView;
 	private final EditText newTaskTitleEditText;
@@ -42,8 +43,8 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 
 	private final TextView listEmptyTextView;
 
-	// private final ImageView nextDateButton;
-	// private final ImageView previousDateButton;
+	private final ImageView nextDateButton;
+	private final ImageView previousDateButton;
 
 	public DailyTasksView(Activity context, java.util.Date date) {
 		super(context);
@@ -51,9 +52,8 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 				null);
 		addView(view);
 
-		// previousDateButton = (ImageView)
-		// findViewById(R.id.previous_date_button);
-		// nextDateButton = (ImageView) findViewById(R.id.next_date_button);
+		previousDateButton = (ImageView) findViewById(R.id.previous_date_button);
+		nextDateButton = (ImageView) findViewById(R.id.next_date_button);
 		tasksListView = (ListView) findViewById(android.R.id.list);
 		tasksListView.setOnItemClickListener(new OnTaskItemClickListener());
 		listEmptyTextView = (TextView) findViewById(android.R.id.empty);
@@ -75,10 +75,9 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 		newTaskTitleEditText.setOnKeyListener(new AddNewTaskOnKeyListener());
 		// ((Activity) getContext()).registerForContextMenu(tasksListView);
 
-		// previousDateButton
-		// .setOnClickListener(new PreviousDateButtonOnClickListener());
-		// nextDateButton.setOnClickListener(new
-		// NextDateButtonOnClickListener());
+		previousDateButton
+				.setOnClickListener(new PreviousDateButtonOnClickListener());
+		nextDateButton.setOnClickListener(new NextDateButtonOnClickListener());
 		getModel().addModelListener(this);
 	}
 
@@ -92,12 +91,12 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 		dateTextView.setText(text);
 	}
 
-	public void setDate(java.util.Date date) {
+	private void setDate(java.util.Date date) {
 		getCalendar().setTime(date);
 		fillData();
 	}
 
-	public java.util.Date getDate() {
+	private java.util.Date getDate() {
 		return getCalendar().getTime();
 	}
 
@@ -107,10 +106,6 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 
 	private Calendar getCalendar() {
 		return calendar;
-	}
-
-	private Handler getUiHandler() {
-		return uiHandler;
 	}
 
 	private ListView getTasksListView() {
@@ -183,6 +178,18 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 		outputFooterData();
 	}
 
+	private java.util.Date getNextDate() {
+		calendar.setTime(getDate());
+		calendar.add(Calendar.DAY_OF_MONTH, +1);
+		return calendar.getTime();
+	}
+
+	private java.util.Date getPreviousDate() {
+		calendar.setTime(getDate());
+		calendar.add(Calendar.DAY_OF_MONTH, -1);
+		return calendar.getTime();
+	}
+
 	/**
 	 * 
 	 * @author Mironov S.V.
@@ -216,6 +223,50 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 				return true;
 			}
 			return false;
+		}
+	}
+
+	private class PreviousDateButtonOnClickListener implements OnClickListener {
+		public void onClick(View arg0) {
+			Animation animation = android.view.animation.AnimationUtils
+					.loadAnimation(getContext(), R.anim.push_left_out);
+			startAnimation(animation);
+			animation.setAnimationListener(new AnimationListener() {
+				public void onAnimationStart(Animation animation) {
+				}
+
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				public void onAnimationEnd(Animation animation) {
+					setDate(getPreviousDate());
+					Animation inAnimation = android.view.animation.AnimationUtils
+							.loadAnimation(getContext(), R.anim.push_right_in);
+					startAnimation(inAnimation);
+				}
+			});
+		}
+	}
+
+	private class NextDateButtonOnClickListener implements OnClickListener {
+		public void onClick(View arg0) {
+			Animation outAnimation = android.view.animation.AnimationUtils
+					.loadAnimation(getContext(), R.anim.push_right_out);
+			startAnimation(outAnimation);
+			outAnimation.setAnimationListener(new AnimationListener() {
+				public void onAnimationStart(Animation animation) {
+				}
+
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				public void onAnimationEnd(Animation animation) {
+					setDate(getNextDate());
+					Animation inAnimation = android.view.animation.AnimationUtils
+							.loadAnimation(getContext(), R.anim.push_left_in);
+					startAnimation(inAnimation);
+				}
+			});
 		}
 	}
 

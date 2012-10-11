@@ -20,12 +20,14 @@ public final class R {
         public static final int hyperspace_out=0x7f040008;
         public static final int push_left_in=0x7f040009;
         public static final int push_left_out=0x7f04000a;
-        public static final int push_up_in=0x7f04000b;
-        public static final int push_up_out=0x7f04000c;
-        public static final int rotate=0x7f04000d;
-        public static final int rotate_in=0x7f04000e;
-        public static final int zoom_enter=0x7f04000f;
-        public static final int zoom_exit=0x7f040010;
+        public static final int push_right_in=0x7f04000b;
+        public static final int push_right_out=0x7f04000c;
+        public static final int push_up_in=0x7f04000d;
+        public static final int push_up_out=0x7f04000e;
+        public static final int rotate=0x7f04000f;
+        public static final int rotate_in=0x7f040010;
+        public static final int zoom_enter=0x7f040011;
+        public static final int zoom_exit=0x7f040012;
     }
     public static final class attr {
     }

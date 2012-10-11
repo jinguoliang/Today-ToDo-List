@@ -63,7 +63,6 @@ public class EditDailyTaskActivity extends Activity {
 		super.onPause();
 		ActivitySwitcher.animationOut(findViewById(R.id.container),
 				getWindowManager());
-		;
 		getModel().deactivate();
 	}
 

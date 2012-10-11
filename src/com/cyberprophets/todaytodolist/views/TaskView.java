@@ -227,6 +227,7 @@ public class TaskView extends LinearLayout {
 				}
 
 				public void onAnimationEnd(Animation animation) {
+					// setVisibility(GONE);
 					getModel().deleteTask(getTask());
 				}
 			});

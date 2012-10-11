@@ -1,6 +1,5 @@
 package com.cyberprophets.todaytodolist.activities;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
@@ -18,7 +17,6 @@ import com.cyberprophets.todaytodolist.views.DailyTasksView;
 
 public class DailyTasksActivity extends Activity {
 	private DailyTasksView currentTasksView;
-	private final Calendar calendar = Calendar.getInstance();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,17 +52,6 @@ public class DailyTasksActivity extends Activity {
 		super.startActivityForResult(intent, requestCode);
 	}
 
-	private Date getNextDate(Date date) {
-		calendar.setTime(date);
-		calendar.add(Calendar.DAY_OF_MONTH, +1);
-		return calendar.getTime();
-	}
-
-	private Date getPreviousDate(Date date) {
-		calendar.setTime(date);
-		calendar.add(Calendar.DAY_OF_MONTH, -1);
-		return calendar.getTime();
-	}
 }
 
 // public class DailyTasksActivity extends ListActivity implements ModelListener
