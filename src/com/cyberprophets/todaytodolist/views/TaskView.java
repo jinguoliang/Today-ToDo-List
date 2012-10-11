@@ -1,11 +1,10 @@
 package com.cyberprophets.todaytodolist.views;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 
 import com.cyberprophets.todaytodolist.R;
 import com.cyberprophets.todaytodolist.activities.EditDailyTaskActivity;
-import com.cyberprophets.todaytodolist.animation.ActivitySwitcher;
+import com.cyberprophets.todaytodolist.animation.AnimationUtils;
 import com.cyberprophets.todaytodolist.model.Model;
 import com.cyberprophets.todaytodolist.model.dataobjects.tasks.Task;
 
@@ -35,7 +34,7 @@ public class TaskView extends LinearLayout {
 	private final View taskActionsLayout;
 	private final View noteLayout;
 
-	public TaskView(Context context, Task task, Model model) {
+	public TaskView(Activity context, Task task, Model model) {
 		super(context);
 		View view = inflate(getContext(), R.layout.task_view, null);
 		addView(view);
@@ -67,21 +66,47 @@ public class TaskView extends LinearLayout {
 		return noteLayout;
 	}
 
-	public boolean expandTask(boolean show) {
-
+	/**
+	 * The method expands additional information about task.
+	 * 
+	 * @param expand
+	 * @return
+	 */
+	public boolean expandTask(boolean expand) {
 		// TODO проверить метод когда добавляют описание для задачи после
 		// редактирования
-		getTaskActionsLayout().setVisibility(show ? VISIBLE : GONE);
+
+		Animation expandAnimation = AnimationUtils.createExpandAnimation(
+				getTaskActionsLayout(), expand);
+		getTaskActionsLayout().startAnimation(expandAnimation);
+		// getTaskActionsLayout().setVisibility(expand ? VISIBLE : GONE);
 
 		if (getTask().getDescription() == null
 				|| getTask().getDescription().length() == 0) {
 			getNoteLayout().setVisibility(GONE);
-			// return false;
 		} else {
-			getNoteLayout().setVisibility(show ? VISIBLE : GONE);
-			// return show;
+			expandAnimation = AnimationUtils.createExpandAnimation(
+					getNoteLayout(), expand);
+			getNoteLayout().startAnimation(expandAnimation);
 		}
-		return show;
+		return expand;
+	}
+
+	/**
+	 * The method setExpanded() works without animation in contrast expandTask()
+	 * method.
+	 * 
+	 * @param expanded
+	 */
+	public void setExpanded(boolean expanded) {
+		getTaskActionsLayout().setVisibility(expanded ? VISIBLE : GONE);
+
+		if (getTask().getDescription() == null
+				|| getTask().getDescription().length() == 0) {
+			getNoteLayout().setVisibility(GONE);
+		} else {
+			getNoteLayout().setVisibility(expanded ? VISIBLE : GONE);
+		}
 	}
 
 	public void fillView() {
@@ -135,7 +160,7 @@ public class TaskView extends LinearLayout {
 	}
 
 	/**
-	 * ��������� ������� ������ ���������� ������
+	 * 
 	 * 
 	 * @author Mironov S.V.
 	 * @since 24.07.2012
@@ -182,21 +207,8 @@ public class TaskView extends LinearLayout {
 					EditDailyTaskActivity.class);
 			intent.putExtra("id", getTask().getId().toString());
 			intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-
 			final Activity contextActivity = (Activity) getContext();
-
-			WindowManager windowManager = contextActivity.getWindowManager();
-			ActivitySwitcher.animationOut(
-					contextActivity.findViewById(R.id.container),
-					windowManager,
-					new ActivitySwitcher.AnimationFinishedListener() {
-						public void onAnimationFinished() {
-							contextActivity.startActivityForResult(intent, 1);
-						}
-					});
-
-			// ((Activity) getContext()).overridePendingTransition(
-			// R.anim.rotate_in, R.anim.rotate_in);
+			contextActivity.startActivityForResult(intent, 1);
 		}
 	};
 

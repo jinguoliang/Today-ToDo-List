@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:dslv="http://schemas.android.com/apk/res/com.mobeta.android.demodslv"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -16,7 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:contentDescription="@string/next_date"
-            android:src="@android:drawable/ic_media_previous" />
+            android:src="@android:drawable/ic_media_previous"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/selected_date"
@@ -27,7 +29,7 @@
             android:layout_toRightOf="@+id/previous_date_button"
             android:focusable="false"
             android:gravity="center"
-            android:textSize="18sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <ImageButton
@@ -36,7 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:contentDescription="@string/previous_date"
-            android:src="@android:drawable/ic_media_next" />
+            android:src="@android:drawable/ic_media_next"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -64,18 +67,32 @@
             android:layout_alignParentRight="true"
             android:contentDescription="@string/add_task"
             android:gravity="top"
-            android:src="@drawable/ic_add_task" />
-        -->
+            android:src="@drawable/ic_add_task" />       -->
 
     </RelativeLayout>
 
     <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tasks_list_footer"
+        android:layout_below="@+id/add_task_layout"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:drawSelectorOnTop="false"
+        android:drawingCacheQuality="high"
+        android:fastScrollEnabled="true"
+        android:textSize="18sp" />
+
+    <!--
+         <ListView
         android:id="@+id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/tasks_list_footer"
         android:layout_below="@+id/add_task_layout"
-        android:drawSelectorOnTop="false" />
+        android:drawSelectorOnTop="false" />
+    -->
 
     <TextView
         android:id="@+id/android:empty"

@@ -61,14 +61,17 @@ public class EditDailyTaskActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		ActivitySwitcher.animationOut(findViewById(R.id.container),
+				getWindowManager());
+		;
 		getModel().deactivate();
 	}
 
 	@Override
 	protected void onResume() {
+		super.onResume();
 		ActivitySwitcher.animationIn(findViewById(R.id.container),
 				getWindowManager());
-		super.onResume();
 		getModel().activate();
 		getTaskIdFromIntent();
 		fillActivity();
