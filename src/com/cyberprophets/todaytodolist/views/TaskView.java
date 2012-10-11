@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -215,7 +216,21 @@ public class TaskView extends LinearLayout {
 	private class DeleteTaskButtonOnClickListener implements OnClickListener {
 
 		public void onClick(View v) {
-			getModel().deleteTask(getTask());
+			Animation animation = android.view.animation.AnimationUtils
+					.loadAnimation(getContext(), R.anim.push_left_out);
+			startAnimation(animation);
+			animation.setAnimationListener(new AnimationListener() {
+				public void onAnimationStart(Animation animation) {
+				}
+
+				public void onAnimationRepeat(Animation animation) {
+				}
+
+				public void onAnimationEnd(Animation animation) {
+					getModel().deleteTask(getTask());
+				}
+			});
+
 		}
 
 	}
