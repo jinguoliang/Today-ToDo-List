@@ -17,6 +17,7 @@
             android:layout_alignParentLeft="true"
             android:layout_margin="5dp"
             android:contentDescription="@string/next_date"
+            android:padding="5dp"
             android:src="@drawable/ic_arrow_left"
             android:visibility="visible" />
 
@@ -39,6 +40,7 @@
             android:layout_alignParentRight="true"
             android:layout_margin="5dp"
             android:contentDescription="@string/previous_date"
+            android:padding="5dp"
             android:src="@drawable/ic_arrow_right"
             android:visibility="visible" />
     </RelativeLayout>
@@ -54,6 +56,7 @@
             android:id="@+id/add_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:gravity="top"
             android:hint="@string/new_task_title_hint"
             android:inputType="text"
@@ -68,7 +71,7 @@
             android:layout_alignParentRight="true"
             android:contentDescription="@string/add_task"
             android:gravity="top"
-            android:src="@drawable/ic_add_task" />
+            android:src="@drawable/ic_add_task" />
         -->
 
     </RelativeLayout>
@@ -79,6 +82,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/tasks_list_footer"
         android:layout_below="@+id/add_task_layout"
+        android:layout_margin="5dp"
         android:layout_weight="1"
         android:clickable="false"
         android:drawSelectorOnTop="false"
@@ -93,7 +97,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/tasks_list_footer"
         android:layout_below="@+id/add_task_layout"
-        android:drawSelectorOnTop="false" />
+        android:drawSelectorOnTop="false" />
     -->
 
     <TextView
