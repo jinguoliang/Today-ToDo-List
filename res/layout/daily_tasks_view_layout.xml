@@ -10,13 +10,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/previous_date_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_margin="5dp"
             android:contentDescription="@string/next_date"
-            android:src="@android:drawable/ic_media_previous"
+            android:src="@drawable/ic_arrow_left"
             android:visibility="visible" />
 
         <TextView
@@ -31,13 +32,14 @@
             android:textSize="25sp"
             android:textStyle="bold" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/next_date_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
             android:contentDescription="@string/previous_date"
-            android:src="@android:drawable/ic_media_next"
+            android:src="@drawable/ic_arrow_right"
             android:visibility="visible" />
     </RelativeLayout>
 
@@ -66,7 +68,7 @@
             android:layout_alignParentRight="true"
             android:contentDescription="@string/add_task"
             android:gravity="top"
-            android:src="@drawable/ic_add_task" />
+            android:src="@drawable/ic_add_task" />
         -->
 
     </RelativeLayout>
@@ -91,7 +93,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/tasks_list_footer"
         android:layout_below="@+id/add_task_layout"
-        android:drawSelectorOnTop="false" />
+        android:drawSelectorOnTop="false" />
     -->
 
     <TextView

@@ -228,10 +228,10 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 
 	private class PreviousDateButtonOnClickListener implements OnClickListener {
 		public void onClick(View arg0) {
-			Animation animation = android.view.animation.AnimationUtils
+			Animation outAnimation = android.view.animation.AnimationUtils
 					.loadAnimation(getContext(), R.anim.push_left_out);
-			startAnimation(animation);
-			animation.setAnimationListener(new AnimationListener() {
+			outAnimation.setDuration(100);
+			outAnimation.setAnimationListener(new AnimationListener() {
 				public void onAnimationStart(Animation animation) {
 				}
 
@@ -242,9 +242,11 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 					setDate(getPreviousDate());
 					Animation inAnimation = android.view.animation.AnimationUtils
 							.loadAnimation(getContext(), R.anim.push_right_in);
+					inAnimation.setDuration(100);
 					startAnimation(inAnimation);
 				}
 			});
+			startAnimation(outAnimation);
 		}
 	}
 
@@ -252,7 +254,7 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 		public void onClick(View arg0) {
 			Animation outAnimation = android.view.animation.AnimationUtils
 					.loadAnimation(getContext(), R.anim.push_right_out);
-			startAnimation(outAnimation);
+			outAnimation.setDuration(100);
 			outAnimation.setAnimationListener(new AnimationListener() {
 				public void onAnimationStart(Animation animation) {
 				}
@@ -264,9 +266,11 @@ public class DailyTasksView extends LinearLayout implements ModelListener {
 					setDate(getNextDate());
 					Animation inAnimation = android.view.animation.AnimationUtils
 							.loadAnimation(getContext(), R.anim.push_left_in);
+					inAnimation.setDuration(100);
 					startAnimation(inAnimation);
 				}
 			});
+			startAnimation(outAnimation);
 		}
 	}
 
